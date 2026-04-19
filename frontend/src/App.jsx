@@ -1,21 +1,39 @@
-function App() {
+import Footer from "./components/Footer";
+import HeroSection from "./components/HeroSection";
+import ImageEditorSection from "./components/ImageEditorSection";
+import Navbar from "./components/Navbar";
+import PremiumSection from "./components/PremiumSection";
+import ToolsSection from "./components/ToolsSection";
+import TrustSection from "./components/TrustSection";
+import WorkSection from "./components/WorkSection";
+import { toolBySlug } from "./lib/toolCatalog";
+import ToolWorkspacePage from "./pages/ToolWorkspacePage";
+
+function HomePage() {
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
-      <div className="mx-auto max-w-4xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">
-          React + Tailwind + Python + PostgreSQL
-        </p>
-        <h1 className="mt-4 text-4xl font-bold sm:text-5xl">
-          Full-stack app starter structure
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          Your frontend, backend, and database folders are ready. Start
-          building pages in the frontend and API routes in the backend.
-        </p>
-      </div>
-    </main>
+    <>
+      <HeroSection />
+      <ToolsSection />
+      <WorkSection />
+      <PremiumSection />
+      <ImageEditorSection />
+      <TrustSection />
+    </>
+  );
+}
+
+function App() {
+  const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+  const slug = pathname === "/" ? null : pathname.slice(1);
+  const activeTool = slug ? toolBySlug[slug] : null;
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+      <Navbar />
+      {activeTool ? <ToolWorkspacePage tool={activeTool} /> : <HomePage />}
+      <Footer />
+    </div>
   );
 }
 
 export default App;
-
