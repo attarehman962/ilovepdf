@@ -1,27 +1,20 @@
-const workCards = [
-  {
-    title: "Work offline with Desktop",
-    description: "Batch edit and manage documents locally, with no internet and no limits.",
-    image: "/home3.png",
-  },
-  {
-    title: "On-the-go with Mobile",
-    description: "Your favorite tools are right in your pocket. Keep working on your projects anytime, anywhere.",
-    image: "/home3.png",
-  },
-  {
-    title: "Built for business",
-    description: "Automate document management, onboard teams easily, and scale with flexible plans.",
-    image: "/home3.png",
-  },
-];
+import { useI18n } from "../lib/i18n";
+
+const cardImages = ["/desktop.webp", "/mobile.webp", "/business.webp"];
 
 function WorkSection() {
+  const { t } = useI18n();
+  const translatedCards = t("home.workCards", []);
+  const workCards = cardImages.map((image, index) => ({
+    image,
+    ...(translatedCards[index] || {}),
+  }));
+
   return (
     <section className="bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-          Work your way
+          {t("home.workTitle", "Work your way")}
         </h2>
 
         <div className="mt-14 grid gap-8 lg:grid-cols-3">
@@ -33,8 +26,8 @@ function WorkSection() {
               <div className="relative h-60 overflow-hidden bg-[#ffe6de]">
                 <img
                   alt={card.title}
-                  className={`h-full w-full object-cover object-top ${
-                    index === 1 ? "scale-[1.02]" : ""
+                  className={`h-full w-full object-cover ${
+                    index === 1 ? "object-center" : "object-top"
                   }`}
                   src={card.image}
                 />
@@ -58,4 +51,3 @@ function WorkSection() {
 }
 
 export default WorkSection;
-

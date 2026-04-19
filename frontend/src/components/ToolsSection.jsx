@@ -19,9 +19,9 @@ function ToolIcon({ color, symbol }) {
 
 function WorkflowCard({ tool }) {
   return (
-    <article className="relative overflow-hidden rounded-2xl border border-[#f2c9c3] bg-[#fde4df] p-6">
-      <div className="pointer-events-none absolute right-5 top-5 h-12 w-12 rounded-xl border border-dashed border-[#f4aaa1]" />
-      <div className="pointer-events-none absolute -right-5 bottom-4 h-12 w-16 rounded-full border border-dashed border-[#f4aaa1]" />
+    <article className="relative overflow-hidden rounded-2xl border border-slate-300 bg-slate-100 p-6">
+      <div className="pointer-events-none absolute right-5 top-5 h-12 w-12 rounded-xl border border-dashed border-slate-300" />
+      <div className="pointer-events-none absolute -right-5 bottom-4 h-12 w-16 rounded-full border border-dashed border-slate-300" />
       <h3 className="text-[1.15rem] font-bold tracking-tight text-slate-800">
         Create a workflow
       </h3>
@@ -30,7 +30,7 @@ function WorkflowCard({ tool }) {
         reuse them anytime.
       </p>
       <a
-        className="absolute bottom-5 left-6 text-sm font-semibold text-slate-800 transition hover:text-[#ef4335]"
+        className="absolute bottom-5 left-6 text-sm font-semibold text-slate-800 transition hover:text-slate-950"
         href={`/${tool.slug}`}
       >
         Create workflow ↗
@@ -50,7 +50,7 @@ function ToolCard({ tool }) {
       href={`/${tool.slug}`}
     >
       {tool.badge ? (
-        <span className="absolute right-4 top-4 rounded-md bg-sky-50 px-2 py-1 text-[10px] font-bold text-sky-700">
+        <span className="absolute right-4 top-4 rounded-md bg-slate-900 px-2 py-1 text-[10px] font-bold text-white">
           {tool.badge}
         </span>
       ) : null}

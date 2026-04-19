@@ -1,0 +1,762 @@
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+
+const STORAGE_KEY = "ilovepdf_locale";
+
+export const languageOptions = [
+  { code: "en", label: "English", nativeLabel: "English", dir: "ltr" },
+  { code: "es", label: "Spanish", nativeLabel: "Espanol", dir: "ltr" },
+  { code: "fr", label: "French", nativeLabel: "Francais", dir: "ltr" },
+  { code: "ar", label: "Arabic", nativeLabel: "العربية", dir: "rtl" },
+  { code: "hi", label: "Hindi", nativeLabel: "हिन्दी", dir: "ltr" },
+  { code: "ur", label: "Urdu", nativeLabel: "اردو", dir: "rtl" },
+];
+
+const messages = {
+  en: {
+    nav: {
+      merge: "Merge PDF",
+      split: "Split PDF",
+      compress: "Compress PDF",
+      convert: "Convert PDF",
+      allTools: "All PDF Tools",
+      login: "Login",
+      signup: "Sign up",
+      logout: "Logout",
+      signedIn: "Signed in",
+      pricing: "Pricing",
+      security: "Security",
+      features: "Features",
+      about: "About us",
+      help: "Help",
+      language: "Language",
+      otherProducts: "Other Products",
+      solutions: "Solutions",
+      applications: "Applications",
+      integrations: "Integrations",
+    },
+    home: {
+      heroTitle: "Every tool you need to work with PDFs in one place",
+      heroDesc:
+        "Every tool you need to use PDFs, at your fingertips. Merge, split, compress, convert, rotate, unlock and watermark files with just a few clicks.",
+      filters: ["All", "Workflows", "Organize PDF", "Optimize PDF", "Convert PDF", "Edit PDF", "PDF Security", "PDF Intelligence"],
+      workTitle: "Work your way",
+      workCards: [
+        {
+          title: "Work offline with Desktop",
+          description: "Batch edit and manage documents locally, with no internet and no limits.",
+        },
+        {
+          title: "On-the-go with Mobile",
+          description: "Your favorite tools are right in your pocket. Keep working on your projects anytime, anywhere.",
+        },
+        {
+          title: "Built for business",
+          description: "Automate document management, onboard teams easily, and scale with flexible plans.",
+        },
+      ],
+      premiumTitle: "Get more with Premium",
+      premiumList: [
+        "Get full access to iLovePDF and work offline with Desktop.",
+        "Edit PDFs, get advanced OCR, and request secure e-signatures.",
+        "Connect tools and create custom workflows for your team.",
+      ],
+      premiumButton: "Get Premium",
+      imageTitle: "Image editing made simple",
+      imageDesc:
+        "Experience the speed, simplicity, and security you expect from your PDF workflow, tailored for image editing too. Compress, resize, and enhance visuals with an interface that stays familiar.",
+      imageButton: "Go to iLoveIMG",
+      trustTitle: "The PDF software trusted by millions of users",
+      trustDesc:
+        "iLovePDF is your number one web app for editing PDFs with ease. Enjoy all the tools you need to work efficiently with digital documents while keeping your data safe and secure.",
+    },
+    auth: {
+      loginTitle: "Login to your account",
+      loginSubmit: "Log in",
+      loginSwitchText: "Don't have an account?",
+      loginSwitchLabel: "Create an account",
+      loginRightTitle: "Log in to your workspace",
+      loginRightText:
+        "Enter your email and password to access your iLovePDF account. You are one step closer to boosting your document productivity.",
+      signupTitle: "Create your account",
+      signupSubmit: "Sign up",
+      signupSwitchText: "Already have an account?",
+      signupSwitchLabel: "Log in",
+      signupRightTitle: "Create your workspace",
+      signupRightText:
+        "Join your PDF workspace with a secure account. Save your files, keep your sessions, and start using the tools with your own profile.",
+      forgotPassword: "Forgot your password?",
+      allTools: "See all tools",
+      placeholders: {
+        name: "Enter your name",
+        email: "Enter your email",
+        password: "Password",
+      },
+      validation: {
+        name: "Name must be at least 2 characters.",
+        email: "Email is required.",
+        password: "Password must be at least 8 characters.",
+        loading: "Please wait...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "Product", links: ["Home", "Features", "Pricing", "Tools", "FAQ"] },
+        { title: "Resources", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Solutions", links: ["Business", "Education"] },
+        { title: "Legal", links: ["Security", "Privacy policy", "Terms & conditions", "Cookies"] },
+        { title: "Company", links: ["About us", "Contact us", "Blog", "Press"] },
+      ],
+      stores: [
+        "Get it on Google Play",
+        "Download on the App Store",
+        "Download on the Mac App Store",
+        "Microsoft Store",
+      ],
+      copyright: "Your PDF Editor",
+    },
+    pricing: {
+      eyebrow: "Pricing plans",
+      title: "Choose the plan that suits you",
+      monthly: "Monthly Billing",
+      yearly: "Yearly Billing",
+      compare: "Compare the plans",
+      yearlyShown: "Yearly billing shown",
+      note: "Premium saves more with annual billing. Business pricing depends on seats and workflow needs.",
+      apiEyebrow: "API for teams",
+      apiTitle: "Automate document processes with iLovePDF API",
+      apiText:
+        "Build your own workflows for compressing, converting, protecting, and editing PDF files across your product stack.",
+      apiButton: "Start with API access",
+    },
+    pages: {
+      featuresEyebrow: "Features",
+      featuresTitle: "Everything you need to work with documents",
+      featuresDesc:
+        "The app is built to cover everyday PDF work, team collaboration, conversion, protection, automation, and document intelligence from a single workspace.",
+      securityEyebrow: "Security",
+      securityTitle: "Built with safer document handling in mind",
+      securityDesc:
+        "This workspace protects accounts, limits unsafe input, and processes documents in temporary workspaces so your data flow stays predictable and easier to manage.",
+      aboutEyebrow: "About us",
+      aboutTitle: "A document workspace designed to feel straightforward",
+      helpEyebrow: "Help",
+      helpTitle: "How to use the app",
+      helpDesc:
+        "The workflow is simple: choose a tool, upload your file, configure the options, and download the result.",
+      languageEyebrow: "Language",
+      languageTitle: "Built for a worldwide audience",
+      languageDesc:
+        "Choose the language you want for the interface. Your preference is saved on this device.",
+      languageSectionTitle: "Select app language",
+      languageRegionTitle: "Worldwide availability",
+      languageRegionDesc:
+        "The product experience is designed to be adaptable for many markets, teams, and regions with document workflows that work across borders.",
+      selected: "Selected",
+    },
+  },
+  es: {
+    nav: {
+      merge: "Unir PDF",
+      split: "Dividir PDF",
+      compress: "Comprimir PDF",
+      convert: "Convertir PDF",
+      allTools: "Todas las herramientas",
+      login: "Iniciar sesion",
+      signup: "Registrarse",
+      logout: "Cerrar sesion",
+      signedIn: "Sesion iniciada",
+      pricing: "Precios",
+      security: "Seguridad",
+      features: "Funciones",
+      about: "Sobre nosotros",
+      help: "Ayuda",
+      language: "Idioma",
+      otherProducts: "Otros productos",
+      solutions: "Soluciones",
+      applications: "Aplicaciones",
+      integrations: "Integraciones",
+    },
+    home: {
+      heroTitle: "Todas las herramientas que necesitas para trabajar con PDF en un solo lugar",
+      heroDesc:
+        "Todo lo que necesitas para usar PDFs al alcance de tu mano. Une, divide, comprime, convierte, gira, desbloquea y marca archivos rapidamente.",
+      filters: ["Todo", "Flujos", "Organizar PDF", "Optimizar PDF", "Convertir PDF", "Editar PDF", "Seguridad PDF", "Inteligencia PDF"],
+      workTitle: "Trabaja a tu manera",
+      premiumTitle: "Obtén más con Premium",
+      premiumButton: "Obtener Premium",
+      imageTitle: "Edicion de imagen sencilla",
+      imageDesc:
+        "Disfruta la velocidad y simplicidad de tu flujo PDF, ahora tambien para imagenes. Comprime, cambia tamano y mejora visuales facilmente.",
+      imageButton: "Ir a iLoveIMG",
+      trustTitle: "El software PDF de confianza para millones de usuarios",
+      trustDesc:
+        "Disfruta todas las herramientas que necesitas para trabajar con documentos digitales mientras mantienes tus datos seguros.",
+    },
+    auth: {
+      loginTitle: "Inicia sesion en tu cuenta",
+      loginSubmit: "Entrar",
+      loginSwitchText: "No tienes una cuenta?",
+      loginSwitchLabel: "Crear una cuenta",
+      loginRightTitle: "Entra en tu espacio de trabajo",
+      loginRightText:
+        "Introduce tu correo y contraseña para acceder a tu cuenta. Estás a un paso de mejorar tu productividad documental.",
+      signupTitle: "Crea tu cuenta",
+      signupSubmit: "Registrarse",
+      signupSwitchText: "Ya tienes una cuenta?",
+      signupSwitchLabel: "Entrar",
+      signupRightTitle: "Crea tu espacio de trabajo",
+      signupRightText:
+        "Unete a tu espacio PDF con una cuenta segura. Guarda tus archivos y mantén tus sesiones activas.",
+      forgotPassword: "Olvidaste tu contraseña?",
+      allTools: "Ver todas las herramientas",
+      placeholders: {
+        name: "Escribe tu nombre",
+        email: "Escribe tu correo",
+        password: "Contraseña",
+      },
+      validation: {
+        name: "El nombre debe tener al menos 2 caracteres.",
+        email: "El correo es obligatorio.",
+        password: "La contraseña debe tener al menos 8 caracteres.",
+        loading: "Espera por favor...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "Producto", links: ["Inicio", "Funciones", "Precios", "Herramientas", "FAQ"] },
+        { title: "Recursos", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Soluciones", links: ["Negocios", "Educacion"] },
+        { title: "Legal", links: ["Seguridad", "Privacidad", "Terminos", "Cookies"] },
+        { title: "Empresa", links: ["Sobre nosotros", "Contacto", "Blog", "Prensa"] },
+      ],
+      stores: ["Google Play", "App Store", "Mac App Store", "Microsoft Store"],
+      copyright: "Tu editor PDF",
+    },
+    pricing: {
+      eyebrow: "Planes de precios",
+      title: "Elige el plan que mejor te convenga",
+      monthly: "Facturacion mensual",
+      yearly: "Facturacion anual",
+      compare: "Comparar planes",
+      yearlyShown: "Se muestra la facturacion anual",
+      note: "Premium ahorra mas con pago anual. El precio Business depende de los asientos y necesidades.",
+      apiEyebrow: "API para equipos",
+      apiTitle: "Automatiza procesos documentales con iLovePDF API",
+      apiText: "Construye tus propios flujos para comprimir, convertir, proteger y editar PDF.",
+      apiButton: "Empezar con acceso API",
+    },
+    pages: {
+      featuresEyebrow: "Funciones",
+      featuresTitle: "Todo lo que necesitas para trabajar con documentos",
+      featuresDesc: "La aplicacion cubre trabajo PDF diario, conversion, proteccion, automatizacion e inteligencia documental.",
+      securityEyebrow: "Seguridad",
+      securityTitle: "Pensado para un manejo documental mas seguro",
+      securityDesc: "Este espacio protege cuentas, limita entradas inseguras y procesa archivos en espacios temporales.",
+      aboutEyebrow: "Sobre nosotros",
+      aboutTitle: "Un espacio documental pensado para ser claro",
+      helpEyebrow: "Ayuda",
+      helpTitle: "Como usar la aplicacion",
+      helpDesc: "El flujo es simple: elige una herramienta, sube tu archivo, configura opciones y descarga el resultado.",
+      languageEyebrow: "Idioma",
+      languageTitle: "Creado para una audiencia mundial",
+      languageDesc: "Elige el idioma que quieras para la interfaz. Tu preferencia se guarda en este dispositivo.",
+      languageSectionTitle: "Selecciona el idioma de la app",
+      languageRegionTitle: "Disponibilidad mundial",
+      languageRegionDesc: "La experiencia del producto se adapta a muchos mercados, equipos y regiones.",
+      selected: "Seleccionado",
+    },
+  },
+  fr: {
+    nav: {
+      merge: "Fusionner PDF",
+      split: "Diviser PDF",
+      compress: "Compresser PDF",
+      convert: "Convertir PDF",
+      allTools: "Tous les outils",
+      login: "Connexion",
+      signup: "Inscription",
+      logout: "Deconnexion",
+      signedIn: "Connecte",
+      pricing: "Tarifs",
+      security: "Securite",
+      features: "Fonctionnalites",
+      about: "A propos",
+      help: "Aide",
+      language: "Langue",
+      otherProducts: "Autres produits",
+      solutions: "Solutions",
+      applications: "Applications",
+      integrations: "Integrations",
+    },
+    home: {
+      heroTitle: "Tous les outils dont vous avez besoin pour travailler avec les PDF",
+      heroDesc:
+        "Fusionnez, divisez, compressez, convertissez, faites pivoter, deverrouillez et ajoutez un filigrane en quelques clics.",
+      filters: ["Tout", "Flux", "Organiser PDF", "Optimiser PDF", "Convertir PDF", "Editer PDF", "Securite PDF", "Intelligence PDF"],
+      workTitle: "Travaillez a votre facon",
+      premiumTitle: "Passez a Premium",
+      premiumButton: "Obtenir Premium",
+      imageTitle: "Edition d'image simplifiee",
+      imageDesc:
+        "Profitez de la rapidite et de la simplicite attendues de votre flux PDF, adaptees aussi a l'edition d'images.",
+      imageButton: "Aller a iLoveIMG",
+      trustTitle: "Le logiciel PDF de confiance pour des millions d'utilisateurs",
+      trustDesc: "Profitez de tous les outils necessaires pour travailler efficacement tout en gardant vos donnees en securite.",
+    },
+    auth: {
+      loginTitle: "Connectez-vous a votre compte",
+      loginSubmit: "Se connecter",
+      loginSwitchText: "Vous n'avez pas de compte ?",
+      loginSwitchLabel: "Creer un compte",
+      loginRightTitle: "Connectez-vous a votre espace",
+      loginRightText:
+        "Entrez votre e-mail et votre mot de passe pour acceder a votre compte iLovePDF.",
+      signupTitle: "Creez votre compte",
+      signupSubmit: "S'inscrire",
+      signupSwitchText: "Vous avez deja un compte ?",
+      signupSwitchLabel: "Se connecter",
+      signupRightTitle: "Creez votre espace",
+      signupRightText:
+        "Rejoignez votre espace PDF avec un compte securise et conservez vos sessions.",
+      forgotPassword: "Mot de passe oublie ?",
+      allTools: "Voir tous les outils",
+      placeholders: {
+        name: "Entrez votre nom",
+        email: "Entrez votre e-mail",
+        password: "Mot de passe",
+      },
+      validation: {
+        name: "Le nom doit contenir au moins 2 caracteres.",
+        email: "L'e-mail est obligatoire.",
+        password: "Le mot de passe doit contenir au moins 8 caracteres.",
+        loading: "Veuillez patienter...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "Produit", links: ["Accueil", "Fonctionnalites", "Tarifs", "Outils", "FAQ"] },
+        { title: "Ressources", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Solutions", links: ["Business", "Education"] },
+        { title: "Legal", links: ["Securite", "Confidentialite", "Conditions", "Cookies"] },
+        { title: "Entreprise", links: ["A propos", "Contact", "Blog", "Presse"] },
+      ],
+      stores: ["Google Play", "App Store", "Mac App Store", "Microsoft Store"],
+      copyright: "Votre editeur PDF",
+    },
+    pricing: {
+      eyebrow: "Tarifs",
+      title: "Choisissez le plan qui vous convient",
+      monthly: "Mensuel",
+      yearly: "Annuel",
+      compare: "Comparer les plans",
+      yearlyShown: "Facturation annuelle affichee",
+      note: "Premium economise plus avec l'annuel. Le plan Business depend du nombre de sieges.",
+      apiEyebrow: "API pour les equipes",
+      apiTitle: "Automatisez les processus documentaires avec l'API iLovePDF",
+      apiText: "Creez vos propres flux pour compresser, convertir, proteger et editer des PDF.",
+      apiButton: "Commencer avec l'API",
+    },
+    pages: {
+      featuresEyebrow: "Fonctionnalites",
+      featuresTitle: "Tout ce qu'il faut pour travailler avec des documents",
+      featuresDesc: "L'application couvre le travail PDF quotidien, la conversion, la protection et l'automatisation.",
+      securityEyebrow: "Securite",
+      securityTitle: "Concu pour une gestion documentaire plus sure",
+      securityDesc: "Cet espace protege les comptes et traite les documents dans des espaces temporaires.",
+      aboutEyebrow: "A propos",
+      aboutTitle: "Un espace documentaire concu pour rester simple",
+      helpEyebrow: "Aide",
+      helpTitle: "Comment utiliser l'application",
+      helpDesc: "Choisissez un outil, telechargez votre fichier, reglez les options puis telechargez le resultat.",
+      languageEyebrow: "Langue",
+      languageTitle: "Concu pour un public mondial",
+      languageDesc: "Choisissez la langue de l'interface. Votre preference est enregistree sur cet appareil.",
+      languageSectionTitle: "Selectionnez la langue de l'application",
+      languageRegionTitle: "Disponibilite mondiale",
+      languageRegionDesc: "L'experience produit peut s'adapter a de nombreux marches et regions.",
+      selected: "Selectionne",
+    },
+  },
+  ar: {
+    nav: {
+      merge: "دمج PDF",
+      split: "تقسيم PDF",
+      compress: "ضغط PDF",
+      convert: "تحويل PDF",
+      allTools: "كل الادوات",
+      login: "تسجيل الدخول",
+      signup: "انشاء حساب",
+      logout: "تسجيل الخروج",
+      signedIn: "تم تسجيل الدخول",
+      pricing: "الاسعار",
+      security: "الامان",
+      features: "المميزات",
+      about: "معلومات عنا",
+      help: "المساعدة",
+      language: "اللغة",
+      otherProducts: "منتجات اخرى",
+      solutions: "الحلول",
+      applications: "التطبيقات",
+      integrations: "التكاملات",
+    },
+    home: {
+      heroTitle: "كل الادوات التي تحتاجها للعمل مع ملفات PDF في مكان واحد",
+      heroDesc: "ادمج وقسم واضغط وحول ودوّر وافتح الحماية واضف علامة مائية خلال بضع نقرات.",
+      filters: ["الكل", "سير العمل", "تنظيم PDF", "تحسين PDF", "تحويل PDF", "تحرير PDF", "امان PDF", "ذكاء PDF"],
+      workTitle: "اعمل بالطريقة التي تناسبك",
+      premiumTitle: "احصل على المزيد مع بريميوم",
+      premiumButton: "احصل على بريميوم",
+      imageTitle: "تحرير الصور اصبح اسهل",
+      imageDesc: "استمتع بالسرعة والبساطة نفسها المتوقعة من سير عمل PDF ولكن مع الصور ايضا.",
+      imageButton: "اذهب الى iLoveIMG",
+      trustTitle: "برنامج PDF الموثوق به من ملايين المستخدمين",
+      trustDesc: "استمتع بكل الادوات التي تحتاجها للعمل بكفاءة مع الحفاظ على امان بياناتك.",
+    },
+    auth: {
+      loginTitle: "سجل الدخول الى حسابك",
+      loginSubmit: "دخول",
+      loginSwitchText: "ليس لديك حساب؟",
+      loginSwitchLabel: "انشاء حساب",
+      loginRightTitle: "سجل الدخول الى مساحة العمل",
+      loginRightText: "ادخل البريد الالكتروني وكلمة المرور للوصول الى حسابك.",
+      signupTitle: "انشئ حسابك",
+      signupSubmit: "تسجيل",
+      signupSwitchText: "لديك حساب بالفعل؟",
+      signupSwitchLabel: "دخول",
+      signupRightTitle: "انشئ مساحة العمل",
+      signupRightText: "انضم الى مساحة ملفات PDF الخاصة بك مع حساب امن.",
+      forgotPassword: "هل نسيت كلمة المرور؟",
+      allTools: "عرض كل الادوات",
+      placeholders: {
+        name: "ادخل الاسم",
+        email: "ادخل البريد الالكتروني",
+        password: "كلمة المرور",
+      },
+      validation: {
+        name: "يجب ان يحتوي الاسم على حرفين على الاقل.",
+        email: "البريد الالكتروني مطلوب.",
+        password: "يجب ان تحتوي كلمة المرور على 8 احرف على الاقل.",
+        loading: "يرجى الانتظار...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "المنتج", links: ["الرئيسية", "المميزات", "الاسعار", "الادوات", "الاسئلة"] },
+        { title: "الموارد", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "الحلول", links: ["الاعمال", "التعليم"] },
+        { title: "القانوني", links: ["الامان", "الخصوصية", "الشروط", "الكوكيز"] },
+        { title: "الشركة", links: ["معلومات عنا", "اتصل بنا", "المدونة", "الصحافة"] },
+      ],
+      stores: ["Google Play", "App Store", "Mac App Store", "Microsoft Store"],
+      copyright: "محرر PDF الخاص بك",
+    },
+    pricing: {
+      eyebrow: "الاسعار",
+      title: "اختر الخطة المناسبة لك",
+      monthly: "شهري",
+      yearly: "سنوي",
+      compare: "قارن الخطط",
+      yearlyShown: "يتم عرض الفوترة السنوية",
+      note: "يوفر بريميوم اكثر مع الدفع السنوي. تعتمد اسعار الاعمال على عدد المقاعد.",
+      apiEyebrow: "واجهة API للفرق",
+      apiTitle: "قم بأتمتة عمليات المستندات باستخدام iLovePDF API",
+      apiText: "ابن سير العمل الخاص بك للضغط والتحويل والحماية والتحرير.",
+      apiButton: "ابدأ باستخدام API",
+    },
+    pages: {
+      featuresEyebrow: "المميزات",
+      featuresTitle: "كل ما تحتاجه للعمل مع المستندات",
+      featuresDesc: "يغطي التطبيق مهام PDF اليومية والتحويل والحماية والاتمتة.",
+      securityEyebrow: "الامان",
+      securityTitle: "مصمم للتعامل الامن مع المستندات",
+      securityDesc: "تحمي هذه المساحة الحسابات وتعالج الملفات في مساحات مؤقتة.",
+      aboutEyebrow: "معلومات عنا",
+      aboutTitle: "مساحة مستندات مصممة لتكون واضحة",
+      helpEyebrow: "المساعدة",
+      helpTitle: "كيفية استخدام التطبيق",
+      helpDesc: "اختر الاداة وارفع الملف واضبط الخيارات ثم قم بتنزيل النتيجة.",
+      languageEyebrow: "اللغة",
+      languageTitle: "مصمم لجمهور عالمي",
+      languageDesc: "اختر لغة الواجهة التي تريدها. يتم حفظ التفضيل على هذا الجهاز.",
+      languageSectionTitle: "اختر لغة التطبيق",
+      languageRegionTitle: "التوفر العالمي",
+      languageRegionDesc: "تم تصميم التجربة لتناسب اسواقا ومناطق متعددة.",
+      selected: "تم الاختيار",
+    },
+  },
+  hi: {
+    nav: {
+      merge: "PDF जोड़ें",
+      split: "PDF बांटें",
+      compress: "PDF कंप्रेस करें",
+      convert: "PDF कन्वर्ट करें",
+      allTools: "सभी टूल्स",
+      login: "लॉग इन",
+      signup: "साइन अप",
+      logout: "लॉग आउट",
+      signedIn: "साइन इन है",
+      pricing: "प्राइसिंग",
+      security: "सिक्योरिटी",
+      features: "फीचर्स",
+      about: "हमारे बारे में",
+      help: "मदद",
+      language: "भाषा",
+      otherProducts: "अन्य प्रोडक्ट्स",
+      solutions: "सॉल्यूशंस",
+      applications: "एप्लिकेशन",
+      integrations: "इंटीग्रेशन",
+    },
+    home: {
+      heroTitle: "PDF के साथ काम करने के लिए हर जरूरी टूल एक ही जगह",
+      heroDesc: "मर्ज, स्प्लिट, कंप्रेस, कन्वर्ट, रोटेट, अनलॉक और वॉटरमार्क कुछ ही क्लिक में करें।",
+      filters: ["सभी", "वर्कफ्लो", "ऑर्गनाइज PDF", "ऑप्टिमाइज़ PDF", "कन्वर्ट PDF", "एडिट PDF", "PDF सिक्योरिटी", "PDF इंटेलिजेंस"],
+      workTitle: "अपने तरीके से काम करें",
+      premiumTitle: "प्रीमियम के साथ और पाएँ",
+      premiumButton: "प्रीमियम लें",
+      imageTitle: "इमेज एडिटिंग और आसान",
+      imageDesc: "PDF वर्कफ्लो जैसी ही तेजी और सरलता अब इमेज एडिटिंग में भी पाएं।",
+      imageButton: "iLoveIMG पर जाएं",
+      trustTitle: "लाखों यूज़र्स का भरोसेमंद PDF सॉफ्टवेयर",
+      trustDesc: "डिजिटल दस्तावेज़ों के साथ काम करने के लिए सभी ज़रूरी टूल्स का आनंद लें।",
+    },
+    auth: {
+      loginTitle: "अपने अकाउंट में लॉग इन करें",
+      loginSubmit: "लॉग इन",
+      loginSwitchText: "क्या आपका अकाउंट नहीं है?",
+      loginSwitchLabel: "अकाउंट बनाएं",
+      loginRightTitle: "अपने वर्कस्पेस में लॉग इन करें",
+      loginRightText: "अपना ईमेल और पासवर्ड डालें और अपने अकाउंट तक पहुंचें।",
+      signupTitle: "अपना अकाउंट बनाएं",
+      signupSubmit: "साइन अप",
+      signupSwitchText: "क्या आपका अकाउंट पहले से है?",
+      signupSwitchLabel: "लॉग इन",
+      signupRightTitle: "अपना वर्कस्पेस बनाएं",
+      signupRightText: "एक सुरक्षित अकाउंट के साथ अपने PDF वर्कस्पेस से जुड़ें।",
+      forgotPassword: "पासवर्ड भूल गए?",
+      allTools: "सभी टूल देखें",
+      placeholders: {
+        name: "अपना नाम लिखें",
+        email: "अपना ईमेल लिखें",
+        password: "पासवर्ड",
+      },
+      validation: {
+        name: "नाम कम से कम 2 अक्षरों का होना चाहिए।",
+        email: "ईमेल आवश्यक है।",
+        password: "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए।",
+        loading: "कृपया प्रतीक्षा करें...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "प्रोडक्ट", links: ["होम", "फीचर्स", "प्राइसिंग", "टूल्स", "FAQ"] },
+        { title: "रिसोर्सेज", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "सॉल्यूशंस", links: ["बिजनेस", "एजुकेशन"] },
+        { title: "लीगल", links: ["सिक्योरिटी", "प्राइवेसी", "टर्म्स", "कुकीज़"] },
+        { title: "कंपनी", links: ["हमारे बारे में", "संपर्क", "ब्लॉग", "प्रेस"] },
+      ],
+      stores: ["Google Play", "App Store", "Mac App Store", "Microsoft Store"],
+      copyright: "आपका PDF एडिटर",
+    },
+    pricing: {
+      eyebrow: "प्राइसिंग प्लान",
+      title: "अपने लिए सही प्लान चुनें",
+      monthly: "मासिक बिलिंग",
+      yearly: "वार्षिक बिलिंग",
+      compare: "प्लान तुलना",
+      yearlyShown: "वार्षिक बिलिंग दिखाई जा रही है",
+      note: "वार्षिक भुगतान के साथ Premium में अधिक बचत होती है।",
+      apiEyebrow: "टीम्स के लिए API",
+      apiTitle: "iLovePDF API के साथ डॉक्यूमेंट प्रोसेस ऑटोमेट करें",
+      apiText: "कंप्रेस, कन्वर्ट, प्रोटेक्ट और एडिट के लिए अपना वर्कफ्लो बनाएं।",
+      apiButton: "API एक्सेस शुरू करें",
+    },
+    pages: {
+      featuresEyebrow: "फीचर्स",
+      featuresTitle: "दस्तावेज़ों के साथ काम करने के लिए सब कुछ",
+      featuresDesc: "ऐप रोज़मर्रा के PDF काम, कन्वर्ज़न, सुरक्षा और ऑटोमेशन को कवर करता है।",
+      securityEyebrow: "सिक्योरिटी",
+      securityTitle: "ज़्यादा सुरक्षित दस्तावेज़ प्रबंधन के लिए बनाया गया",
+      securityDesc: "यह वर्कस्पेस अकाउंट की रक्षा करता है और फ़ाइलों को अस्थायी स्पेस में प्रोसेस करता है।",
+      aboutEyebrow: "हमारे बारे में",
+      aboutTitle: "एक डॉक्यूमेंट वर्कस्पेस जो साफ और सरल लगे",
+      helpEyebrow: "मदद",
+      helpTitle: "ऐप कैसे उपयोग करें",
+      helpDesc: "टूल चुनें, फ़ाइल अपलोड करें, विकल्प सेट करें और नतीजा डाउनलोड करें।",
+      languageEyebrow: "भाषा",
+      languageTitle: "दुनियाभर के उपयोगकर्ताओं के लिए बनाया गया",
+      languageDesc: "इंटरफ़ेस के लिए अपनी भाषा चुनें। आपकी पसंद इसी डिवाइस में सेव होगी।",
+      languageSectionTitle: "ऐप की भाषा चुनें",
+      languageRegionTitle: "विश्वव्यापी उपलब्धता",
+      languageRegionDesc: "यह अनुभव अलग-अलग बाज़ारों और क्षेत्रों के लिए अनुकूल बनाया गया है।",
+      selected: "चयनित",
+    },
+  },
+  ur: {
+    nav: {
+      merge: "PDF ملائیں",
+      split: "PDF تقسیم کریں",
+      compress: "PDF کمپریس کریں",
+      convert: "PDF تبدیل کریں",
+      allTools: "تمام ٹولز",
+      login: "لاگ ان",
+      signup: "سائن اپ",
+      logout: "لاگ آؤٹ",
+      signedIn: "لاگ ان ہے",
+      pricing: "قیمتیں",
+      security: "سیکیورٹی",
+      features: "فیچرز",
+      about: "ہمارے بارے میں",
+      help: "مدد",
+      language: "زبان",
+      otherProducts: "دیگر مصنوعات",
+      solutions: "حل",
+      applications: "ایپلی کیشنز",
+      integrations: "انٹیگریشنز",
+    },
+    home: {
+      heroTitle: "PDF کے ساتھ کام کرنے کے لیے تمام ضروری ٹولز ایک جگہ",
+      heroDesc: "مرج، اسپلٹ، کمپریس، کنورٹ، روٹیٹ، ان لاک اور واٹرمارک چند کلکس میں کریں۔",
+      filters: ["سب", "ورک فلو", "آرگنائز PDF", "آپٹمائز PDF", "کنورٹ PDF", "ایڈٹ PDF", "PDF سیکیورٹی", "PDF انٹیلیجنس"],
+      workTitle: "اپنے انداز میں کام کریں",
+      premiumTitle: "پریمیم کے ساتھ مزید حاصل کریں",
+      premiumButton: "پریمیم حاصل کریں",
+      imageTitle: "امیج ایڈیٹنگ اب آسان",
+      imageDesc: "PDF ورک فلو جیسی رفتار اور سادگی اب امیج ایڈیٹنگ میں بھی حاصل کریں۔",
+      imageButton: "iLoveIMG پر جائیں",
+      trustTitle: "لاکھوں صارفین کا قابل اعتماد PDF سافٹ ویئر",
+      trustDesc: "تمام ضروری ٹولز کے ساتھ اپنے ڈیجیٹل دستاویزات پر محفوظ طریقے سے کام کریں۔",
+    },
+    auth: {
+      loginTitle: "اپنے اکاؤنٹ میں لاگ ان کریں",
+      loginSubmit: "لاگ ان",
+      loginSwitchText: "کیا آپ کے پاس اکاؤنٹ نہیں ہے؟",
+      loginSwitchLabel: "اکاؤنٹ بنائیں",
+      loginRightTitle: "اپنی ورک اسپیس میں لاگ ان کریں",
+      loginRightText: "اپنا ای میل اور پاس ورڈ درج کریں اور اپنے اکاؤنٹ تک رسائی حاصل کریں۔",
+      signupTitle: "اپنا اکاؤنٹ بنائیں",
+      signupSubmit: "سائن اپ",
+      signupSwitchText: "کیا آپ کے پاس پہلے سے اکاؤنٹ ہے؟",
+      signupSwitchLabel: "لاگ ان",
+      signupRightTitle: "اپنی ورک اسپیس بنائیں",
+      signupRightText: "ایک محفوظ اکاؤنٹ کے ساتھ اپنے PDF ورک اسپیس میں شامل ہوں۔",
+      forgotPassword: "پاس ورڈ بھول گئے؟",
+      allTools: "تمام ٹولز دیکھیں",
+      placeholders: {
+        name: "اپنا نام درج کریں",
+        email: "اپنا ای میل درج کریں",
+        password: "پاس ورڈ",
+      },
+      validation: {
+        name: "نام کم از کم 2 حروف کا ہونا چاہیے۔",
+        email: "ای میل ضروری ہے۔",
+        password: "پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے۔",
+        loading: "براہ کرم انتظار کریں...",
+      },
+    },
+    footer: {
+      groups: [
+        { title: "پروڈکٹ", links: ["ہوم", "فیچرز", "قیمتیں", "ٹولز", "FAQ"] },
+        { title: "وسائل", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "حل", links: ["بزنس", "تعلیم"] },
+        { title: "قانونی", links: ["سیکیورٹی", "پرائیویسی", "شرائط", "کوکیز"] },
+        { title: "کمپنی", links: ["ہمارے بارے میں", "رابطہ", "بلاگ", "پریس"] },
+      ],
+      stores: ["Google Play", "App Store", "Mac App Store", "Microsoft Store"],
+      copyright: "آپ کا PDF ایڈیٹر",
+    },
+    pricing: {
+      eyebrow: "قیمتوں کے منصوبے",
+      title: "اپنے لیے مناسب پلان منتخب کریں",
+      monthly: "ماہانہ بلنگ",
+      yearly: "سالانہ بلنگ",
+      compare: "منصوبوں کا موازنہ",
+      yearlyShown: "سالانہ بلنگ دکھائی جا رہی ہے",
+      note: "سالانہ ادائیگی کے ساتھ پریمیم میں زیادہ بچت ہوتی ہے۔",
+      apiEyebrow: "ٹیمز کے لیے API",
+      apiTitle: "iLovePDF API کے ساتھ دستاویزی عمل خودکار بنائیں",
+      apiText: "کمپریس، کنورٹ، پروٹیکٹ اور ایڈٹ کے لیے اپنا ورک فلو بنائیں۔",
+      apiButton: "API رسائی شروع کریں",
+    },
+    pages: {
+      featuresEyebrow: "فیچرز",
+      featuresTitle: "دستاویزات کے ساتھ کام کرنے کے لیے سب کچھ",
+      featuresDesc: "ایپ روزمرہ PDF کام، کنورژن، تحفظ اور آٹومیشن کو کور کرتی ہے۔",
+      securityEyebrow: "سیکیورٹی",
+      securityTitle: "زیادہ محفوظ دستاویز ہینڈلنگ کے لیے تیار کیا گیا",
+      securityDesc: "یہ ورک اسپیس اکاؤنٹس کی حفاظت کرتی ہے اور فائلوں کو عارضی جگہوں میں پروسیس کرتی ہے۔",
+      aboutEyebrow: "ہمارے بارے میں",
+      aboutTitle: "ایک دستاویزی ورک اسپیس جو صاف اور سادہ محسوس ہو",
+      helpEyebrow: "مدد",
+      helpTitle: "ایپ استعمال کرنے کا طریقہ",
+      helpDesc: "ٹول منتخب کریں، فائل اپ لوڈ کریں، آپشنز سیٹ کریں اور نتیجہ ڈاؤن لوڈ کریں۔",
+      languageEyebrow: "زبان",
+      languageTitle: "دنیا بھر کے صارفین کے لیے تیار",
+      languageDesc: "انٹرفیس کے لیے اپنی پسند کی زبان منتخب کریں۔ آپ کی ترجیح اسی ڈیوائس میں محفوظ ہوگی۔",
+      languageSectionTitle: "ایپ کی زبان منتخب کریں",
+      languageRegionTitle: "عالمی دستیابی",
+      languageRegionDesc: "یہ تجربہ مختلف مارکیٹس اور علاقوں کے لیے ڈیزائن کیا گیا ہے۔",
+      selected: "منتخب",
+    },
+  },
+};
+
+const I18nContext = createContext(null);
+
+function getMessage(locale, path) {
+  const resolvePath = (source) =>
+    path.split(".").reduce((current, part) => current?.[part], source);
+  const localized = resolvePath(messages[locale] || messages.en);
+  if (localized !== undefined) {
+    return localized;
+  }
+  return resolvePath(messages.en);
+}
+
+function detectInitialLocale() {
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  if (stored && languageOptions.some((item) => item.code === stored)) {
+    return stored;
+  }
+
+  const browserLanguage = navigator.language?.slice(0, 2)?.toLowerCase();
+  if (browserLanguage && languageOptions.some((item) => item.code === browserLanguage)) {
+    return browserLanguage;
+  }
+
+  return "en";
+}
+
+export function I18nProvider({ children }) {
+  const [locale, setLocaleState] = useState(detectInitialLocale);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, locale);
+    const option = languageOptions.find((item) => item.code === locale) || languageOptions[0];
+    document.documentElement.lang = option.code;
+    document.documentElement.dir = option.dir;
+  }, [locale]);
+
+  const value = useMemo(() => {
+    const option = languageOptions.find((item) => item.code === locale) || languageOptions[0];
+
+    return {
+      locale,
+      setLocale: setLocaleState,
+      language: option,
+      languages: languageOptions,
+      t(path, fallback = "") {
+        return getMessage(locale, path) ?? fallback;
+      },
+    };
+  }, [locale]);
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+}
+
+export function useI18n() {
+  const context = useContext(I18nContext);
+  if (!context) {
+    throw new Error("useI18n must be used within I18nProvider.");
+  }
+  return context;
+}
