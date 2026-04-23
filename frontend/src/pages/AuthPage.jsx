@@ -47,9 +47,9 @@ function AuthPage({ mode = "login", onAuthSuccess }) {
 
   const socialButtons = useMemo(
     () => [
-      { label: "Facebook", className: "bg-[#4267B2] text-white" },
-      { label: "Google", className: "border border-slate-300 bg-white text-slate-700" },
-      { label: "SSO", className: "border border-slate-300 bg-white text-slate-700" },
+      { label: "Facebook", className: "bg-[#4267B2] text-white opacity-50 cursor-not-allowed" },
+      { label: "Google", className: "border border-slate-300 bg-white text-slate-700 opacity-50 cursor-not-allowed" },
+      { label: "SSO", className: "border border-slate-300 bg-white text-slate-700 opacity-50 cursor-not-allowed" },
     ],
     [],
   );
@@ -132,7 +132,9 @@ function AuthPage({ mode = "login", onAuthSuccess }) {
             {socialButtons.map((button) => (
               <button
                 key={button.label}
-                className={`inline-flex min-w-[136px] items-center justify-center rounded-xl px-5 py-3 text-lg font-bold transition hover:scale-[1.02] ${button.className}`}
+                className={`inline-flex min-w-[136px] items-center justify-center rounded-xl px-5 py-3 text-lg font-bold ${button.className}`}
+                disabled
+                title="Social login is not available yet"
                 type="button"
               >
                 {button.label}
@@ -177,9 +179,9 @@ function AuthPage({ mode = "login", onAuthSuccess }) {
             />
 
             {mode === "login" ? (
-              <a className="block pt-1 text-center text-lg font-semibold text-slate-900 underline" href="/login">
+              <p className="block pt-1 text-center text-lg font-semibold text-slate-400">
                 {t("auth.forgotPassword", "Forgot your password?")}
-              </a>
+              </p>
             ) : null}
 
             <div className="pt-4 text-center">
@@ -193,7 +195,9 @@ function AuthPage({ mode = "login", onAuthSuccess }) {
             </div>
 
             {error ? (
-              <p className="pt-2 text-center text-sm font-semibold text-slate-700">{error}</p>
+              <p aria-live="polite" role="alert" className="pt-2 text-center text-sm font-semibold text-red-600">
+                {error}
+              </p>
             ) : null}
           </form>
 

@@ -1,5 +1,31 @@
 import { useI18n } from "../lib/i18n";
 
+const LINK_HREF_MAP = {
+  Home: "/",
+  Features: "/features",
+  Pricing: "/pricing",
+  Security: "/security",
+  "About us": "/about",
+  Help: "/help",
+  Language: "/language",
+  Inicio: "/",
+  Funciones: "/features",
+  Precios: "/pricing",
+  Seguridad: "/security",
+  "Sobre nosotros": "/about",
+  Ayuda: "/help",
+  Accueil: "/",
+  Fonctionnalités: "/features",
+  Tarifs: "/pricing",
+  Sécurité: "/security",
+  "À propos": "/about",
+  Aide: "/help",
+};
+
+function linkHref(label) {
+  return LINK_HREF_MAP[label] || "/";
+}
+
 function Footer() {
   const { t, language } = useI18n();
   const footerGroups = t("footer.groups", []);
@@ -20,7 +46,7 @@ function Footer() {
                     <a
                       key={link}
                       className="block text-[15px] text-slate-300 transition hover:text-white"
-                      href="/"
+                      href={linkHref(link)}
                     >
                       {link}
                     </a>
@@ -53,11 +79,11 @@ function Footer() {
             </a>
 
             <div className="flex flex-wrap items-center gap-5 text-slate-300">
-              <span className="text-xl">𝕏</span>
-              <span className="text-xl">f</span>
-              <span className="text-xl">in</span>
-              <span className="text-xl">◎</span>
-              <span className="text-xl">♪</span>
+              <span className="text-xl" aria-label="X / Twitter">𝕏</span>
+              <span className="text-xl" aria-label="Facebook">f</span>
+              <span className="text-xl" aria-label="LinkedIn">in</span>
+              <span className="text-xl" aria-label="Instagram">◎</span>
+              <span className="text-xl" aria-label="TikTok">♪</span>
               <span className="text-sm text-slate-400">© iLovePDF 2026 • {t("footer.copyright", "Your PDF Editor")}</span>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { useI18n } from "../lib/i18n";
 
-function HeroSection() {
+function HeroSection({ activeFilter, onFilterChange }) {
   const { t } = useI18n();
   const filters = t("home.filters", []);
 
@@ -16,19 +16,24 @@ function HeroSection() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          {filters.map((filter, index) => (
-            <button
-              key={filter}
-              className={`rounded-full border px-5 py-2 text-sm font-semibold transition ${
-                index === 0
-                  ? "border-slate-900 bg-slate-900 text-white"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:text-slate-950"
-              }`}
-              type="button"
-            >
-              {filter}
-            </button>
-          ))}
+          {filters.map((filter) => {
+            const isActive = filter === activeFilter;
+            return (
+              <button
+                key={filter}
+                aria-pressed={isActive}
+                className={`rounded-full border px-5 py-2 text-sm font-semibold transition ${
+                  isActive
+                    ? "border-slate-900 bg-slate-900 text-white"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:text-slate-950"
+                }`}
+                onClick={() => onFilterChange(filter)}
+                type="button"
+              >
+                {filter}
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

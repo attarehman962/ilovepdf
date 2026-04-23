@@ -4,8 +4,8 @@ const STORAGE_KEY = "ilovepdf_locale";
 
 export const languageOptions = [
   { code: "en", label: "English", nativeLabel: "English", dir: "ltr" },
-  { code: "es", label: "Spanish", nativeLabel: "Espanol", dir: "ltr" },
-  { code: "fr", label: "French", nativeLabel: "Francais", dir: "ltr" },
+  { code: "es", label: "Spanish", nativeLabel: "Español", dir: "ltr" },
+  { code: "fr", label: "French", nativeLabel: "Français", dir: "ltr" },
   { code: "ar", label: "Arabic", nativeLabel: "العربية", dir: "rtl" },
   { code: "hi", label: "Hindi", nativeLabel: "हिन्दी", dir: "ltr" },
   { code: "ur", label: "Urdu", nativeLabel: "اردو", dir: "rtl" },

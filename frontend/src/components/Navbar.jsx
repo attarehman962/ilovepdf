@@ -375,7 +375,7 @@ function Navbar({ user, onLogout, authLoading }) {
                 type="button"
               >
                 <span>{t("nav.allTools", "All PDF Tools")}</span>
-                <span className="text-xs">⌃</span>
+                <span className="text-xs">▾</span>
               </button>
               <AllToolsMenu />
             </div>

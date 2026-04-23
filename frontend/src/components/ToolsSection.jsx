@@ -1,4 +1,5 @@
-import { toolCatalog } from "../lib/toolCatalog";
+import { useMemo } from "react";
+import { toolCatalog, CATEGORY_FILTER_MAP } from "../lib/toolCatalog";
 
 function ToolIcon({ color, symbol }) {
   return (
@@ -67,15 +68,30 @@ function ToolCard({ tool }) {
   );
 }
 
-function ToolsSection() {
+function ToolsSection({ activeFilter = "All" }) {
+  const visibleTools = useMemo(() => {
+    if (!activeFilter || activeFilter === "All") {
+      return toolCatalog;
+    }
+    const category = CATEGORY_FILTER_MAP[activeFilter];
+    if (!category) {
+      return toolCatalog;
+    }
+    return toolCatalog.filter((tool) => tool.category === category);
+  }, [activeFilter]);
+
   return (
     <section className="bg-[radial-gradient(circle_at_bottom_left,rgba(244,114,182,0.06),transparent_18%),radial-gradient(circle_at_top_right,rgba(251,113,133,0.08),transparent_18%),linear-gradient(180deg,#fdfdff_0%,#ffffff_24%)] py-10">
       <div className="mx-auto max-w-[1900px] px-4 sm:px-5 lg:px-7">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-          {toolCatalog.map((tool) => (
-            <ToolCard key={tool.title} tool={tool} />
-          ))}
-        </div>
+        {visibleTools.length === 0 ? (
+          <p className="py-16 text-center text-slate-500">No tools match this filter.</p>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+            {visibleTools.map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

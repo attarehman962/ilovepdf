@@ -8,6 +8,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: true,
     supported: true,
+    category: "organize",
   },
   {
     slug: "split-pdf",
@@ -18,6 +19,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "organize",
   },
   {
     slug: "compress-pdf",
@@ -28,6 +30,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "optimize",
   },
   {
     slug: "pdf-to-word",
@@ -38,6 +41,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "pdf-to-powerpoint",
@@ -48,6 +52,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "pdf-to-excel",
@@ -58,6 +63,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "word-to-pdf",
@@ -68,6 +74,7 @@ export const toolCatalog = [
     accept: ".doc,.docx",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "powerpoint-to-pdf",
@@ -78,6 +85,7 @@ export const toolCatalog = [
     accept: ".ppt,.pptx",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "excel-to-pdf",
@@ -88,6 +96,7 @@ export const toolCatalog = [
     accept: ".xls,.xlsx",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "edit-pdf",
@@ -98,6 +107,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "edit",
   },
   {
     slug: "pdf-to-jpg",
@@ -108,6 +118,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "jpg-to-pdf",
@@ -118,6 +129,7 @@ export const toolCatalog = [
     accept: ".jpg,.jpeg,.png,.webp",
     multiple: true,
     supported: true,
+    category: "convert",
   },
   {
     slug: "sign-pdf",
@@ -128,6 +140,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "security",
   },
   {
     slug: "watermark",
@@ -138,6 +151,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "edit",
   },
   {
     slug: "rotate-pdf",
@@ -148,6 +162,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "edit",
   },
   {
     slug: "html-to-pdf",
@@ -158,6 +173,7 @@ export const toolCatalog = [
     accept: ".html,.htm",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "unlock-pdf",
@@ -168,6 +184,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "security",
   },
   {
     slug: "protect-pdf",
@@ -178,6 +195,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "security",
   },
   {
     slug: "organize-pdf",
@@ -188,6 +206,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "organize",
   },
   {
     slug: "pdf-to-pdfa",
@@ -198,6 +217,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "convert",
   },
   {
     slug: "repair-pdf",
@@ -208,6 +228,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "optimize",
   },
   {
     slug: "page-numbers",
@@ -218,6 +239,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "edit",
   },
   {
     slug: "scan-to-pdf",
@@ -228,6 +250,7 @@ export const toolCatalog = [
     accept: ".jpg,.jpeg,.png,.webp",
     multiple: true,
     supported: true,
+    category: "organize",
   },
   {
     slug: "ocr-pdf",
@@ -238,6 +261,7 @@ export const toolCatalog = [
     accept: ".pdf,.jpg,.jpeg,.png",
     multiple: false,
     supported: true,
+    category: "optimize",
   },
   {
     slug: "compare-pdf",
@@ -248,6 +272,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: true,
     supported: true,
+    category: "security",
   },
   {
     slug: "redact-pdf",
@@ -258,6 +283,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "security",
   },
   {
     slug: "crop-pdf",
@@ -268,6 +294,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "edit",
   },
   {
     slug: "ai-summarizer",
@@ -279,6 +306,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "intelligence",
   },
   {
     slug: "translate-pdf",
@@ -290,6 +318,7 @@ export const toolCatalog = [
     accept: ".pdf",
     multiple: false,
     supported: true,
+    category: "intelligence",
   },
   {
     slug: "create-workflow",
@@ -300,6 +329,7 @@ export const toolCatalog = [
     accept:
       ".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.html,.htm",
     multiple: true,
+    category: "workflow",
   },
 ];
 
@@ -314,3 +344,13 @@ export const commonNavTools = [
 export const toolBySlug = Object.fromEntries(
   toolCatalog.map((tool) => [tool.slug, tool]),
 );
+
+export const CATEGORY_FILTER_MAP = {
+  "Workflows": "workflow",
+  "Organize PDF": "organize",
+  "Optimize PDF": "optimize",
+  "Convert PDF": "convert",
+  "Edit PDF": "edit",
+  "PDF Security": "security",
+  "PDF Intelligence": "intelligence",
+};

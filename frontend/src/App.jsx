@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 
 import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
@@ -21,10 +21,13 @@ import { applyPageMetadata } from "./lib/seo";
 import { clearToken, fetchMe, getStoredToken, logout } from "./services/auth";
 
 function HomePage() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const handleFilterChange = useCallback((filter) => setActiveFilter(filter), []);
+
   return (
     <>
-      <HeroSection />
-      <ToolsSection />
+      <HeroSection activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      <ToolsSection activeFilter={activeFilter} />
       <WorkSection />
       <PremiumSection />
       <ImageEditorSection />
