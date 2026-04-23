@@ -779,6 +779,7 @@ function ToolWorkspacePage({ tool }) {
 
       const requestOptions = { ...form };
       delete requestOptions.confirmPassword;
+      delete requestOptions.workflowJson;
       if (tool.slug === "create-workflow") {
         requestOptions.workflow = form.workflowJson;
       }

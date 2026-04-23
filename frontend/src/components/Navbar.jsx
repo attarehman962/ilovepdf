@@ -352,7 +352,7 @@ function Navbar({ user, onLogout, authLoading }) {
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="flex w-full items-center justify-between gap-3 px-3 py-3 sm:px-4 lg:px-5">
         <div className="flex items-center gap-4 lg:gap-6">
-          <a className="flex items-center gap-1 text-2xl font-black tracking-tight text-slate-950" href="/">
+          <a className="flex items-center gap-1 text-xl font-black tracking-tight text-slate-950 sm:text-2xl" href="/">
             <span>I</span>
             <span className="text-slate-950">❤</span>
             <span>PDF</span>
@@ -385,6 +385,20 @@ function Navbar({ user, onLogout, authLoading }) {
         <div className="flex items-center gap-2 sm:gap-3">
           {!authLoading && !user ? (
             <>
+              <div className="flex items-center gap-2 sm:hidden">
+                <a
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300 hover:text-slate-950"
+                  href="/login"
+                >
+                  {t("nav.login", "Login")}
+                </a>
+                <a
+                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-slate-800"
+                  href="/signup"
+                >
+                  {t("nav.signup", "Sign up")}
+                </a>
+              </div>
               <a className="hidden text-sm font-semibold text-slate-700 hover:text-slate-950 sm:inline-flex" href="/login">
                 {t("nav.login", "Login")}
               </a>
