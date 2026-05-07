@@ -20,13 +20,13 @@ import ToolWorkspacePage from "./pages/ToolWorkspacePage";
 import { applyPageMetadata } from "./lib/seo";
 import { clearToken, fetchMe, getStoredToken, logout } from "./services/auth";
 
-function HomePage() {
+function HomePage({ user }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const handleFilterChange = useCallback((filter) => setActiveFilter(filter), []);
 
   return (
     <>
-      <HeroSection activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      <HeroSection activeFilter={activeFilter} onFilterChange={handleFilterChange} user={user} />
       <ToolsSection activeFilter={activeFilter} />
       <WorkSection />
       <PremiumSection />
@@ -184,7 +184,7 @@ function App() {
         ) : activeTool ? (
           <ToolWorkspacePage tool={activeTool} />
         ) : (
-          <HomePage />
+          <HomePage user={user} />
         )}
       </div>
       <Footer />

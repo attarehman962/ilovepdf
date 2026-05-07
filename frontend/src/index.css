@@ -21,7 +21,9 @@
   }
 
   html {
+    overflow-x: clip;
     scroll-behavior: smooth;
+    width: 100%;
   }
 
   body {
@@ -32,6 +34,8 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     min-height: 100vh;
+    overflow-x: clip;
+    width: 100%;
     text-rendering: optimizeLegibility;
     transition:
       background-color 180ms ease,
@@ -101,8 +105,10 @@
 .app-shell {
   min-height: 100vh;
   color: var(--app-text);
+  overflow-x: clip;
 }
 
 .page-shell {
   position: relative;
+  overflow-x: clip;
 }

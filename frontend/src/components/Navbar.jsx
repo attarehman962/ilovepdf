@@ -82,9 +82,9 @@ function AllToolsMenu() {
   };
 
   return (
-    <div className="pointer-events-none absolute left-0 top-full z-50 hidden w-[1380px] max-w-[calc(100vw-28px)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
-      <div className="rounded-[22px] border border-slate-200 bg-white p-7 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
-        <div className="grid gap-8 lg:grid-cols-7">
+    <div className="pointer-events-none absolute left-0 top-full z-50 hidden w-[min(72rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="max-h-[calc(100vh-6rem)] overflow-x-hidden overflow-y-auto rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] xl:p-7">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7">
           {allToolsColumns.map((column) => (
             <div key={column.title}>
               <h3 className="text-xs font-black uppercase tracking-[0.1em] text-slate-500">
@@ -149,9 +149,9 @@ function RightHoverMenu({ links = [] }) {
   const bottomLinks = links.slice(4);
 
   return (
-    <div className="pointer-events-none absolute right-0 top-full z-50 hidden w-[830px] max-w-[calc(100vw-24px)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
-      <div className="rounded-[22px] border border-slate-200 bg-white p-7 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr_0.6fr]">
+    <div className="pointer-events-none absolute right-0 top-full z-50 hidden w-[min(56rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="max-h-[calc(100vh-6rem)] overflow-x-hidden overflow-y-auto rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] xl:p-7">
+        <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-[1.1fr_1fr_0.6fr]">
           <div className="grid gap-7 lg:grid-cols-2">
             <div>
               <h3 className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">
@@ -177,7 +177,7 @@ function RightHoverMenu({ links = [] }) {
               </a>
             </div>
 
-            <div className="border-l border-slate-200 pl-7">
+            <div className="border-t border-slate-200 pt-6 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
               <h3 className="text-xs font-black uppercase tracking-[0.08em] text-slate-500">
                 {t("nav.solutions", "Solutions")}
               </h3>
@@ -358,7 +358,7 @@ function Navbar({ user, onLogout, authLoading }) {
             <span>PDF</span>
           </a>
 
-          <nav className="hidden items-center gap-6 xl:flex">
+          <nav className="relative hidden items-center gap-6 xl:flex">
             {primaryLinks.map((link) => (
               <a
                 key={link.key}
@@ -369,7 +369,7 @@ function Navbar({ user, onLogout, authLoading }) {
               </a>
             ))}
 
-            <div className="group relative">
+            <div className="group static">
               <button
                 className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.04em] text-slate-700 transition hover:text-slate-950"
                 type="button"
@@ -413,6 +413,21 @@ function Navbar({ user, onLogout, authLoading }) {
 
           {!authLoading && user ? (
             <>
+              <div className="flex items-center gap-2 lg:hidden">
+                <div className="inline-flex h-10 max-w-[8.5rem] items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 text-slate-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-[11px] font-black text-white">
+                    {user.name?.charAt(0)?.toUpperCase() || "U"}
+                  </span>
+                  <span className="truncate text-xs font-bold">{user.name}</span>
+                </div>
+                <button
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300 hover:text-slate-950"
+                  onClick={onLogout}
+                  type="button"
+                >
+                  {t("nav.logout", "Logout")}
+                </button>
+              </div>
               <div className="hidden rounded-xl border border-slate-200 px-4 py-2 text-right lg:block">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-400">
                   {t("nav.signedIn", "Signed in")}
