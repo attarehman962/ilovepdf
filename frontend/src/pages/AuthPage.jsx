@@ -13,6 +13,35 @@ function isStrongPassword(password) {
   );
 }
 
+function AuthField({
+  autoComplete,
+  minLength,
+  name,
+  onChange,
+  placeholder,
+  required = false,
+  type = "text",
+  value,
+  label,
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
+      <input
+        className="w-full rounded-md border border-slate-400 px-4 py-4 text-lg outline-none transition focus:border-slate-900"
+        minLength={minLength}
+        name={name}
+        onChange={onChange}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
+        required={required}
+        type={type}
+        value={value}
+      />
+    </label>
+  );
+}
+
 function AuthPage({ mode = "login", onAuthSuccess }) {
   const { t } = useI18n();
   const content =
@@ -144,34 +173,34 @@ function AuthPage({ mode = "login", onAuthSuccess }) {
 
           <form className="mt-6 space-y-3" onSubmit={handleSubmit}>
             {mode === "signup" ? (
-              <input
-                className="w-full rounded-md border border-slate-400 px-4 py-4 text-lg outline-none transition focus:border-slate-900"
+              <AuthField
+                autoComplete="name"
+                label={t("auth.labels.name", "Full name")}
                 minLength={2}
                 name="name"
                 onChange={onChange}
-                autoComplete="name"
                 placeholder={t("auth.placeholders.name", "Enter your name")}
                 required
                 value={form.name}
               />
             ) : null}
 
-            <input
-              className="w-full rounded-md border border-slate-400 px-4 py-4 text-lg outline-none transition focus:border-slate-900"
+            <AuthField
+              autoComplete="email"
+              label={t("auth.labels.email", "Email address")}
               name="email"
               onChange={onChange}
-              autoComplete="email"
               placeholder={t("auth.placeholders.email", "Enter your email")}
               required
               type="email"
               value={form.email}
             />
-            <input
-              className="w-full rounded-md border border-slate-400 px-4 py-4 text-lg outline-none transition focus:border-slate-900"
+            <AuthField
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              label={t("auth.labels.password", "Password")}
               minLength={8}
               name="password"
               onChange={onChange}
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
               placeholder={t("auth.placeholders.password", "Password")}
               required
               type="password"

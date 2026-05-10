@@ -4,25 +4,25 @@ const featureGroups = [
   {
     title: "PDF editing",
     items: [
-      "Merge, split, rotate, crop, redact, and repair PDF documents.",
-      "Add page numbers, signatures, and watermark layers in a few clicks.",
-      "Use OCR, summarization, and translation tools from the same workspace.",
+      "Merge, split, rotate, crop, watermark, number, and repair PDF documents.",
+      "Apply typed signatures, text overlays, and flattened redaction coverage in a few clicks.",
+      "Use OCR, summarization, translation, and searchable scan tools from the same workspace.",
     ],
   },
   {
     title: "Conversion tools",
     items: [
-      "Convert PDF to Word, PowerPoint, Excel, and JPG.",
+      "Convert PDF to Word, PowerPoint, Excel, and JPG with page previews or extracted text.",
       "Create PDF files from Word, PowerPoint, Excel, HTML, and scanned images.",
-      "Compress and optimize files for sharing, storage, or printing.",
+      "Compress and optimize files for sharing, storage, printing, and archival-style export.",
     ],
   },
   {
     title: "Workflow features",
     items: [
       "Chain multiple processors into one reusable workflow.",
-      "Keep files organized in one interface across desktop and mobile.",
-      "Prepare documents for teams, clients, and internal operations.",
+      "Save workflow presets in your browser for quick reuse.",
+      "Keep files organized in one interface with multi-file ordering controls.",
     ],
   },
 ];

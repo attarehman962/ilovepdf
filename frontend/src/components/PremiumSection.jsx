@@ -22,7 +22,7 @@ function PremiumSection() {
             </ul>
             <a
               className="mt-10 inline-flex rounded-2xl bg-slate-900 px-6 py-3 text-base font-bold text-white transition hover:bg-slate-800"
-              href="/"
+              href="/features"
             >
               {t("home.premiumButton", "Get Premium")}
             </a>

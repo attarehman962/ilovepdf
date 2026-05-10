@@ -35,7 +35,7 @@ export const toolCatalog = [
   {
     slug: "pdf-to-word",
     title: "PDF to Word",
-    description: "Extract PDF text into DOCX format.",
+    description: "Create a DOCX file with page previews and extracted text.",
     color: "bg-slate-700",
     symbol: "W",
     accept: ".pdf",
@@ -46,7 +46,7 @@ export const toolCatalog = [
   {
     slug: "pdf-to-powerpoint",
     title: "PDF to PowerPoint",
-    description: "Extract PDF text into PPTX slides.",
+    description: "Create a PPTX deck with one visual slide per PDF page.",
     color: "bg-zinc-700",
     symbol: "P",
     accept: ".pdf",
@@ -57,7 +57,7 @@ export const toolCatalog = [
   {
     slug: "pdf-to-excel",
     title: "PDF to Excel",
-    description: "Extract PDF text lines into XLSX sheets.",
+    description: "Extract page text into XLSX sheets with OCR fallback for scans.",
     color: "bg-gray-700",
     symbol: "X",
     accept: ".pdf",
@@ -101,7 +101,7 @@ export const toolCatalog = [
   {
     slug: "edit-pdf",
     title: "Edit PDF",
-    description: "Apply a simple text overlay edit to your PDF.",
+    description: "Add a styled text overlay to each page of your PDF.",
     color: "bg-neutral-700",
     symbol: "✎",
     accept: ".pdf",
@@ -134,7 +134,7 @@ export const toolCatalog = [
   {
     slug: "sign-pdf",
     title: "Sign PDF",
-    description: "Place a text signature on the document.",
+    description: "Place a typed signature on each page of the document.",
     color: "bg-[#5d86bf]",
     symbol: "✍",
     accept: ".pdf",
@@ -189,7 +189,7 @@ export const toolCatalog = [
   {
     slug: "protect-pdf",
     title: "Protect PDF",
-    description: "Add password security to the PDF.",
+    description: "Add AES-256 password security to the PDF.",
     color: "bg-[#5d86bf]",
     symbol: "🛡",
     accept: ".pdf",
@@ -211,7 +211,7 @@ export const toolCatalog = [
   {
     slug: "pdf-to-pdfa",
     title: "PDF to PDF/A",
-    description: "Rewrite the PDF into an archival-style output.",
+    description: "Rewrite the PDF into an archival-style export.",
     color: "bg-[#5d86bf]",
     symbol: "/A",
     accept: ".pdf",
@@ -244,7 +244,7 @@ export const toolCatalog = [
   {
     slug: "scan-to-pdf",
     title: "Scan to PDF",
-    description: "Create a PDF from scanned image files.",
+    description: "Create a searchable PDF from scanned image files using OCR.",
     color: "bg-slate-700",
     symbol: "▣",
     accept: ".jpg,.jpeg,.png,.webp",
@@ -266,7 +266,7 @@ export const toolCatalog = [
   {
     slug: "compare-pdf",
     title: "Compare PDF",
-    description: "Compare the extracted text of two PDFs.",
+    description: "Compare extracted and OCR text from two PDFs.",
     color: "bg-[#5d86bf]",
     symbol: "▥",
     accept: ".pdf",
@@ -277,7 +277,7 @@ export const toolCatalog = [
   {
     slug: "redact-pdf",
     title: "Redact PDF",
-    description: "Apply a simple visual redaction band to the page.",
+    description: "Flatten selected pages and permanently cover sensitive areas.",
     color: "bg-[#5d86bf]",
     symbol: "▤",
     accept: ".pdf",
@@ -299,7 +299,7 @@ export const toolCatalog = [
   {
     slug: "ai-summarizer",
     title: "AI Summarizer",
-    description: "Create a heuristic summary from extracted text.",
+    description: "Create an extractive summary from document text with OCR fallback.",
     color: "bg-[#6b4de6]",
     symbol: "✦",
     badge: "New!",
@@ -311,7 +311,7 @@ export const toolCatalog = [
   {
     slug: "translate-pdf",
     title: "Translate PDF",
-    description: "Extract and translate PDF text into a translated PDF document.",
+    description: "Create a translated PDF report from extracted or OCR text.",
     color: "bg-[#6b4de6]",
     symbol: "文",
     badge: "New!",
@@ -345,12 +345,17 @@ export const toolBySlug = Object.fromEntries(
   toolCatalog.map((tool) => [tool.slug, tool]),
 );
 
-export const CATEGORY_FILTER_MAP = {
-  "Workflows": "workflow",
-  "Organize PDF": "organize",
-  "Optimize PDF": "optimize",
-  "Convert PDF": "convert",
-  "Edit PDF": "edit",
-  "PDF Security": "security",
-  "PDF Intelligence": "intelligence",
-};
+export const HOME_FILTERS = [
+  { key: "all", labelPath: "home.filters.all", fallback: "All", category: null },
+  { key: "workflow", labelPath: "home.filters.workflow", fallback: "Workflows", category: "workflow" },
+  { key: "organize", labelPath: "home.filters.organize", fallback: "Organize PDF", category: "organize" },
+  { key: "optimize", labelPath: "home.filters.optimize", fallback: "Optimize PDF", category: "optimize" },
+  { key: "convert", labelPath: "home.filters.convert", fallback: "Convert PDF", category: "convert" },
+  { key: "edit", labelPath: "home.filters.edit", fallback: "Edit PDF", category: "edit" },
+  { key: "security", labelPath: "home.filters.security", fallback: "PDF Security", category: "security" },
+  { key: "intelligence", labelPath: "home.filters.intelligence", fallback: "PDF Intelligence", category: "intelligence" },
+];
+
+export const HOME_FILTER_CATEGORY_MAP = Object.fromEntries(
+  HOME_FILTERS.map((filter) => [filter.key, filter.category]),
+);

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { toolCatalog, CATEGORY_FILTER_MAP } from "../lib/toolCatalog";
+import { toolCatalog, HOME_FILTER_CATEGORY_MAP } from "../lib/toolCatalog";
 
 function ToolIcon({ color, symbol }) {
   return (
@@ -68,12 +68,12 @@ function ToolCard({ tool }) {
   );
 }
 
-function ToolsSection({ activeFilter = "All" }) {
+function ToolsSection({ activeFilter = "all" }) {
   const visibleTools = useMemo(() => {
-    if (!activeFilter || activeFilter === "All") {
+    if (!activeFilter || activeFilter === "all") {
       return toolCatalog;
     }
-    const category = CATEGORY_FILTER_MAP[activeFilter];
+    const category = HOME_FILTER_CATEGORY_MAP[activeFilter];
     if (!category) {
       return toolCatalog;
     }

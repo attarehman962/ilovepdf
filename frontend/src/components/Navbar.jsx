@@ -36,16 +36,16 @@ const allToolsColumns = [
 
 const rightMenu = {
   otherProducts: [
-    { name: "iLoveIMG", description: "Effortless image editing", accent: "bg-slate-100 text-slate-700" },
-    { name: "iLoveSign", description: "e-Signing made simple", accent: "bg-slate-100 text-slate-700" },
-    { name: "iLoveAPI", description: "Document automation for developers", accent: "bg-slate-100 text-slate-700" },
+    { name: "iLoveIMG", description: "Effortless image editing", accent: "bg-slate-100 text-slate-700", href: "/features" },
+    { name: "iLoveSign", description: "e-Signing made simple", accent: "bg-slate-100 text-slate-700", href: "/sign-pdf" },
+    { name: "iLoveAPI", description: "Document automation for developers", accent: "bg-slate-100 text-slate-700", href: "/features" },
   ],
   solutions: [
-    { name: "Business", description: "PDF editing and workflows for teams", accent: "bg-slate-100 text-slate-700" },
+    { name: "Business", description: "PDF editing and workflows for teams", accent: "bg-slate-100 text-slate-700", href: "/pricing" },
   ],
   applications: [
-    { name: "Desktop App", description: "Available for Mac and Windows", accent: "bg-slate-100 text-slate-700" },
-    { name: "Mobile App", description: "Available for iOS and Android", accent: "bg-slate-100 text-slate-700" },
+    { name: "Desktop App", description: "Available for Mac and Windows", accent: "bg-slate-100 text-slate-700", href: "/features" },
+    { name: "Mobile App", description: "Available for iOS and Android", accent: "bg-slate-100 text-slate-700", href: "/features" },
   ],
 };
 
@@ -72,17 +72,17 @@ function MenuToolLink({ slug, onNavigate }) {
 function AllToolsMenu() {
   const { t } = useI18n();
   const titles = {
-    "Organize PDF": t("home.filters.2", "Organize PDF"),
-    "Optimize PDF": t("home.filters.3", "Optimize PDF"),
+    "Organize PDF": t("home.filters.organize", "Organize PDF"),
+    "Optimize PDF": t("home.filters.optimize", "Optimize PDF"),
     "Convert to PDF": "Convert to PDF",
     "Convert from PDF": "Convert from PDF",
-    "Edit PDF": t("home.filters.5", "Edit PDF"),
-    "PDF Security": t("home.filters.6", "PDF Security"),
-    "PDF Intelligence": t("home.filters.7", "PDF Intelligence"),
+    "Edit PDF": t("home.filters.edit", "Edit PDF"),
+    "PDF Security": t("home.filters.security", "PDF Security"),
+    "PDF Intelligence": t("home.filters.intelligence", "PDF Intelligence"),
   };
 
   return (
-    <div className="pointer-events-none absolute left-0 top-full z-50 hidden w-[min(72rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
+    <div className="pointer-events-none absolute left-0 top-full z-50 hidden w-[min(72rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
       <div className="max-h-[calc(100vh-6rem)] overflow-x-hidden overflow-y-auto rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] xl:p-7">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7">
           {allToolsColumns.map((column) => (
@@ -116,7 +116,7 @@ function LanguageMenuItem() {
         <span className="text-xs font-semibold text-slate-400">{language.nativeLabel}</span>
       </button>
 
-      <div className="pointer-events-none absolute right-full top-1/2 z-10 hidden w-60 -translate-y-1/2 pr-3 opacity-0 transition duration-150 lg:block group-hover/language:pointer-events-auto group-hover/language:opacity-100">
+      <div className="pointer-events-none absolute right-full top-1/2 z-10 hidden w-60 -translate-y-1/2 pr-3 opacity-0 transition duration-150 lg:block group-hover/language:pointer-events-auto group-hover/language:opacity-100 group-focus-within/language:pointer-events-auto group-focus-within/language:opacity-100">
         <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.12)]">
           <div className="space-y-1">
             {languages.map((item) => (
@@ -149,7 +149,7 @@ function RightHoverMenu({ links = [] }) {
   const bottomLinks = links.slice(4);
 
   return (
-    <div className="pointer-events-none absolute right-0 top-full z-50 hidden w-[min(56rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100">
+    <div className="pointer-events-none absolute right-0 top-full z-50 hidden w-[min(56rem,calc(100vw-3rem))] max-w-[calc(100vw-3rem)] pt-3 opacity-0 transition duration-150 lg:block group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
       <div className="max-h-[calc(100vh-6rem)] overflow-x-hidden overflow-y-auto rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] xl:p-7">
         <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-[1.1fr_1fr_0.6fr]">
           <div className="grid gap-7 lg:grid-cols-2">
@@ -159,7 +159,7 @@ function RightHoverMenu({ links = [] }) {
               </h3>
               <div className="mt-5 space-y-4">
                 {rightMenu.otherProducts.map((item) => (
-                  <a key={item.name} className="flex gap-3" href="/">
+                  <a key={item.name} className="flex gap-3" href={item.href}>
                     <span className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl ${item.accent}`}>
                       ◆
                     </span>
@@ -171,7 +171,7 @@ function RightHoverMenu({ links = [] }) {
                 ))}
               </div>
 
-              <a className="mt-5 block rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-600" href="/">
+              <a className="mt-5 block rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-600" href="/features">
                 <span className="block font-bold text-slate-700">{t("nav.integrations", "Integrations")}</span>
                 <span className="mt-1 block text-xs">Zapier, Make, Wordpress...</span>
               </a>
@@ -183,7 +183,7 @@ function RightHoverMenu({ links = [] }) {
               </h3>
               <div className="mt-5 space-y-4">
                 {rightMenu.solutions.map((item) => (
-                  <a key={item.name} className="flex gap-3" href="/">
+                  <a key={item.name} className="flex gap-3" href={item.href}>
                     <span className={`mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.accent}`}>
                       ▮
                     </span>
@@ -200,7 +200,7 @@ function RightHoverMenu({ links = [] }) {
               </h3>
               <div className="mt-5 space-y-4">
                 {rightMenu.applications.map((item) => (
-                  <a key={item.name} className="flex gap-3" href="/">
+                  <a key={item.name} className="flex gap-3" href={item.href}>
                     <span className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl ${item.accent}`}>
                       □
                     </span>
@@ -338,7 +338,7 @@ function Navbar({ user, onLogout, authLoading }) {
     { key: "merge", label: t("nav.merge", "Merge PDF"), href: "/merge-pdf" },
     { key: "split", label: t("nav.split", "Split PDF"), href: "/split-pdf" },
     { key: "compress", label: t("nav.compress", "Compress PDF"), href: "/compress-pdf" },
-    { key: "convert", label: t("nav.convert", "Convert PDF"), href: "/" },
+    { key: "convert", label: t("nav.convert", "Convert PDF"), href: "/features" },
   ];
   const utilityLinks = [
     { key: "pricing", label: t("nav.pricing", "Pricing"), href: "/pricing" },

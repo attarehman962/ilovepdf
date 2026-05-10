@@ -4,59 +4,58 @@ const planCards = [
   {
     name: "Basic",
     price: "Free",
-    subtitle: "Best for trying our PDF tools",
-    cta: "Start for free",
+    subtitle: "Best for everyday PDF tasks",
+    cta: "Use the workspace",
     accent: "border-slate-300 bg-white",
     buttonClass:
       "border border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white",
     features: [
       "Process files with core PDF tools",
-      "Limited access per task",
       "No account required to start",
+      "Great for merge, split, compress, convert, and page utilities",
     ],
   },
   {
-    name: "Premium",
-    price: "$4",
-    subtitle: "Billed monthly",
-    cta: "Go Premium",
+    name: "Enhanced",
+    price: "Demo",
+    subtitle: "Advanced features highlighted in this project",
+    cta: "Explore advanced tools",
     accent: "border-slate-300 bg-slate-100",
     buttonClass: "bg-slate-900 text-white hover:bg-slate-800",
     features: [
-      "Unlimited document processing",
-      "Desktop and mobile access",
-      "Advanced OCR and e-signature tools",
-      "Batch processing and priority support",
+      "Searchable scan-to-PDF and OCR workflows",
+      "Translated PDF reports and extractive summaries",
+      "Workflow presets saved in your browser",
+      "AES-256 PDF protection and stronger validation",
     ],
     highlight: true,
   },
   {
-    name: "Business",
-    price: "Let's talk",
-    subtitle: "Scalable workflows for teams",
-    cta: "Contact sales",
+    name: "Roadmap",
+    price: "Next",
+    subtitle: "High-value expansion ideas for future work",
+    cta: "See project scope",
     accent: "border-slate-300 bg-white",
     buttonClass:
       "border border-slate-300 text-slate-800 hover:border-slate-400 hover:bg-slate-50",
     features: [
-      "Shared seats and admin controls",
-      "Dedicated account management",
-      "SSO, integrations, and API options",
+      "Visual page organization and richer signing",
+      "Persistent accounts, history, and saved workflows",
+      "Team collaboration, roles, and API integration",
     ],
   },
 ];
 
 const comparisonRows = [
-  ["Tasks", "Limited", "All tools included", "All tools included"],
-  ["Batch processing", "Limited", "Unlimited", "Unlimited"],
-  ["Desktop access", "-", "Included", "Included"],
-  ["Mobile app", "-", "Included", "Included"],
-  ["OCR PDF", "-", "Included", "Included"],
-  ["E-signatures", "-", "Included", "Included"],
-  ["API access", "-", "2000 API credits", "Custom"],
-  ["SSO", "-", "-", "Included"],
-  ["Admin controls", "-", "-", "Included"],
-  ["Priority support", "-", "1 day", "1 hour"],
+  ["Core PDF tools", "Included", "Included", "Included"],
+  ["OCR and searchable scans", "-", "Included", "Planned"],
+  ["Translated PDF reports", "-", "Included", "Planned"],
+  ["Workflow presets", "-", "Included", "Planned"],
+  ["AES-256 protection", "Included", "Included", "Included"],
+  ["Team collaboration", "-", "-", "Planned"],
+  ["Saved processing history", "-", "-", "Planned"],
+  ["API integrations", "-", "-", "Planned"],
+  ["Visual page organizer", "-", "-", "Planned"],
 ];
 
 function PricingPage() {
@@ -69,7 +68,7 @@ function PricingPage() {
           {t("pricing.eyebrow", "Pricing plans")}
         </p>
         <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-          {t("pricing.title", "Choose the plan that suits you")}
+          {t("pricing.title", "Choose the setup that suits your workflow")}
         </h1>
 
         <div className="mt-5 inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
@@ -128,7 +127,7 @@ function PricingPage() {
         </div>
 
         <p className="mt-6 text-sm text-slate-500">
-          {t("pricing.note", "Premium saves more with annual billing. Business pricing depends on seats and workflow needs.")}
+          {t("pricing.note", "This page presents the current feature depth of the project and the most valuable next improvements.")}
         </p>
       </section>
 
@@ -149,8 +148,8 @@ function PricingPage() {
                     Feature
                   </th>
                   <th className="px-4 py-4 text-sm font-black text-slate-800">Basic</th>
-                  <th className="px-4 py-4 text-sm font-black text-slate-800">Premium</th>
-                  <th className="px-4 py-4 text-sm font-black text-slate-800">Business</th>
+                  <th className="px-4 py-4 text-sm font-black text-slate-800">Enhanced</th>
+                  <th className="px-4 py-4 text-sm font-black text-slate-800">Roadmap</th>
                 </tr>
               </thead>
               <tbody>
@@ -186,19 +185,19 @@ function PricingPage() {
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-300">
-              {t("pricing.apiEyebrow", "API for teams")}
+              {t("pricing.apiEyebrow", "Project direction")}
             </p>
             <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-              {t("pricing.apiTitle", "Automate document processes with iLovePDF API")}
+              {t("pricing.apiTitle", "Turn this project into a stronger final-year showcase")}
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-300">
-              {t("pricing.apiText", "Build your own workflows for compressing, converting, protecting, and editing PDF files across your product stack.")}
+              {t("pricing.apiText", "The architecture is ready for deeper workflow automation, saved history, team features, and integration layers once you decide which direction your project should grow next.")}
             </p>
             <a
               className="mt-8 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:bg-slate-100"
-              href="/signup"
+              href="/features"
             >
-              {t("pricing.apiButton", "Start with API access")}
+              {t("pricing.apiButton", "See feature roadmap")}
             </a>
           </div>
         </div>

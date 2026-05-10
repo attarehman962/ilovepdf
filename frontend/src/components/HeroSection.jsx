@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 import { useI18n } from "../lib/i18n";
+import { HOME_FILTERS } from "../lib/toolCatalog";
 
 function HeroSection({ activeFilter, onFilterChange, user }) {
   const { t } = useI18n();
-  const filters = t("home.filters", []);
   const [toastMounted, setToastMounted] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
 
@@ -53,21 +53,21 @@ function HeroSection({ activeFilter, onFilterChange, user }) {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          {filters.map((filter) => {
-            const isActive = filter === activeFilter;
+          {HOME_FILTERS.map((filter) => {
+            const isActive = filter.key === activeFilter;
             return (
               <button
-                key={filter}
+                key={filter.key}
                 aria-pressed={isActive}
                 className={`rounded-full border px-5 py-2 text-sm font-semibold transition ${
                   isActive
                     ? "border-slate-900 bg-slate-900 text-white"
                     : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:text-slate-950"
                 }`}
-                onClick={() => onFilterChange(filter)}
+                onClick={() => onFilterChange(filter.key)}
                 type="button"
               >
-                {filter}
+                {t(filter.labelPath, filter.fallback)}
               </button>
             );
           })}

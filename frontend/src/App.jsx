@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 import PremiumSection from "./components/PremiumSection";
 import ToolsSection from "./components/ToolsSection";
 import TrustSection from "./components/TrustSection";
-import WorkSection from "./components/WorkSection";
 import { toolBySlug } from "./lib/toolCatalog";
 import AuthPage from "./pages/AuthPage";
 import AboutPage from "./pages/AboutPage";
@@ -21,18 +20,39 @@ import { applyPageMetadata } from "./lib/seo";
 import { clearToken, fetchMe, getStoredToken, logout } from "./services/auth";
 
 function HomePage({ user }) {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("all");
   const handleFilterChange = useCallback((filter) => setActiveFilter(filter), []);
 
   return (
     <>
       <HeroSection activeFilter={activeFilter} onFilterChange={handleFilterChange} user={user} />
       <ToolsSection activeFilter={activeFilter} />
-      <WorkSection />
       <PremiumSection />
       <ImageEditorSection />
       <TrustSection />
     </>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <main className="min-h-[60vh] bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
+      <section className="mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8">
+        <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">404</p>
+        <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
+          Page not found
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+          The page you requested is not available. Head back to the workspace and choose one of the PDF tools.
+        </p>
+        <a
+          className="mt-8 inline-flex rounded-xl bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+          href="/"
+        >
+          Go to homepage
+        </a>
+      </section>
+    </main>
   );
 }
 
@@ -49,6 +69,16 @@ function App() {
   const isAboutPage = pathname === "/about";
   const isHelpPage = pathname === "/help";
   const isLanguagePage = pathname === "/language";
+  const isKnownStaticPage =
+    pathname === "/" ||
+    isAuthPage ||
+    isPricingPage ||
+    isSecurityPage ||
+    isFeaturesPage ||
+    isAboutPage ||
+    isHelpPage ||
+    isLanguagePage;
+  const isNotFound = !isKnownStaticPage && !activeTool;
   const pageMetadata = useMemo(() => {
     if (activeTool) {
       return {
@@ -103,8 +133,15 @@ function App() {
       },
     };
 
+    if (isNotFound) {
+      return {
+        title: "Page Not Found",
+        description: "The page you requested could not be found in the PDF workspace.",
+      };
+    }
+
     return routeMeta[pathname] || routeMeta["/"];
-  }, [activeTool, pathname]);
+  }, [activeTool, isNotFound, pathname]);
 
   useEffect(() => {
     const token = getStoredToken();
@@ -181,6 +218,8 @@ function App() {
           <HelpPage />
         ) : isLanguagePage ? (
           <LanguagePage />
+        ) : isNotFound ? (
+          <NotFoundPage />
         ) : activeTool ? (
           <ToolWorkspacePage tool={activeTool} />
         ) : (

@@ -17,6 +17,11 @@ const securityItems = [
       "Files are processed in temporary workspaces and are cleaned up after the response is returned.",
   },
   {
+    title: "Stronger PDF protection",
+    description:
+      "Protected PDFs are encrypted with AES-256 when you use the password protection tool.",
+  },
+  {
     title: "Access restrictions",
     description:
       "The API only accepts the expected file types per tool and validates request data before processing.",

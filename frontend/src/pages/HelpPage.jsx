@@ -3,7 +3,7 @@ import { useI18n } from "../lib/i18n";
 const helpSteps = [
   "Create an account or log in if you want to keep a persistent workspace session.",
   "Choose a tool from the homepage grid or the top navigation.",
-  "Upload one or more files depending on the tool you selected.",
+  "Upload one or more files depending on the tool you selected, and reorder them if the output depends on file order.",
   "Fill in the tool options when needed, such as pages, password, rotation, or workflow steps.",
   "Run the process and download the generated file when it is ready.",
 ];
@@ -12,7 +12,7 @@ const tips = [
   "Use `Merge PDF` when you want one file from several PDFs.",
   "Use `Split PDF` when you need specific pages as separate outputs.",
   "Use `Protect PDF` to add a password and `Unlock PDF` to remove one.",
-  "Use `Create a workflow` to chain several operations in sequence.",
+  "Use `Create a workflow` to chain several operations in sequence and save presets in your browser.",
   "Use `Pricing` if you want to compare plan tiers and team capabilities.",
 ];
 

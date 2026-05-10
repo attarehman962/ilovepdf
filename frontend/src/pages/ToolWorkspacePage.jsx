@@ -4,6 +4,7 @@ import ProcessingOverlay from "../components/ProcessingOverlay";
 const apiBase = import.meta.env.VITE_API_BASE_URL || "";
 const MAX_CLIENT_FILE_SIZE = 25 * 1024 * 1024;
 const MAX_CLIENT_FILES = 5;
+const SAVED_WORKFLOWS_KEY = "ilovepdf_saved_workflows";
 
 // ─── shared option lists ──────────────────────────────────────────────────────
 
@@ -114,8 +115,8 @@ const TOOL_CONFIG = {
     ],
   },
   "pdf-to-word":       { hint: "Text and structure will be extracted from each page.", fields: [] },
-  "pdf-to-powerpoint": { hint: "Each PDF page becomes a slide.", fields: [] },
-  "pdf-to-excel":      { hint: "Each line of text becomes a row in the spreadsheet.", fields: [] },
+  "pdf-to-powerpoint": { hint: "Each PDF page becomes a visual slide with extracted text notes.", fields: [] },
+  "pdf-to-excel":      { hint: "Each page is extracted into spreadsheet rows, with OCR fallback for scans.", fields: [] },
   "word-to-pdf":       { hint: "DOC and DOCX are both accepted.", fields: [] },
   "powerpoint-to-pdf": { hint: "PPT and PPTX are both accepted.", fields: [] },
   "excel-to-pdf":      { hint: "XLS and XLSX are both accepted.", fields: [] },
@@ -137,11 +138,11 @@ const TOOL_CONFIG = {
     ],
   },
   "jpg-to-pdf": { hint: "Upload multiple images to combine them into one PDF.", fields: [] },
-  "scan-to-pdf": { hint: "Upload scanned image files to create a searchable PDF.", fields: [] },
+  "scan-to-pdf": { hint: "Upload scanned image files to create a searchable OCR PDF.", fields: [] },
   "html-to-pdf": { hint: "Upload an .html or .htm file to convert it to PDF.", fields: [] },
-  "pdf-to-pdfa": { hint: "Produces an archival-compliant PDF/A format.", fields: [] },
+  "pdf-to-pdfa": { hint: "Rewrites the PDF into an archival-style export.", fields: [] },
   "repair-pdf":  { hint: "Attempts to recover pages from a damaged PDF.", fields: [] },
-  "ai-summarizer": { hint: "Extracts and scores the most relevant sentences from your document.", fields: [] },
+  "ai-summarizer": { hint: "Builds an extractive summary from document text, with OCR fallback for scans.", fields: [] },
 
   "edit-pdf": {
     hint: "Overlay any text anywhere on every page of the PDF.",
@@ -225,7 +226,7 @@ const TOOL_CONFIG = {
   },
 
   "sign-pdf": {
-    hint: "Place your signature text on every page of the document.",
+    hint: "Place your typed signature text on every page of the document.",
     fields: [
       {
         name: "text",
@@ -345,7 +346,7 @@ const TOOL_CONFIG = {
   },
 
   "redact-pdf": {
-    hint: "Applies a solid black box at a fixed position on each page to hide sensitive content.",
+    hint: "Selected pages are flattened and covered with a permanent redaction box.",
     fields: [
       {
         name: "boxHeight",
@@ -389,12 +390,12 @@ const TOOL_CONFIG = {
   },
 
   "ocr-pdf": {
-    hint: "Extracts text using OCR and embeds it as a hidden text layer in the output PDF.",
+    hint: "Extracts text using OCR and embeds it as a searchable hidden text layer in the output PDF.",
     fields: [],
   },
 
   "translate-pdf": {
-    hint: "Extracts page text and translates it. Best with text-based (non-scanned) PDFs.",
+    hint: "Creates a translated PDF report from extracted or OCR text.",
     fields: [
       {
         name: "sourceLang",
@@ -414,7 +415,7 @@ const TOOL_CONFIG = {
   },
 
   "create-workflow": {
-    hint: "Chain multiple tools in sequence. Each step receives the output of the previous one.",
+    hint: "Chain multiple tools in sequence. You can also save workflow presets in this browser.",
     fields: [
       {
         name: "workflowJson",
@@ -513,6 +514,22 @@ function validateToolForm(slug, form) {
   }
 
   return null;
+}
+
+function readSavedWorkflows() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(SAVED_WORKFLOWS_KEY) || "[]");
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.filter((item) => item && item.id && item.name && item.workflowJson);
+  } catch {
+    return [];
+  }
+}
+
+function persistSavedWorkflows(workflows) {
+  window.localStorage.setItem(SAVED_WORKFLOWS_KEY, JSON.stringify(workflows));
 }
 
 // ─── file helpers ─────────────────────────────────────────────────────────────
@@ -685,6 +702,8 @@ function ToolWorkspacePage({ tool }) {
   const [success, setSuccess] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [form, setForm] = useState(() => buildInitialForm(tool.slug));
+  const [savedWorkflows, setSavedWorkflows] = useState(() => readSavedWorkflows());
+  const [workflowName, setWorkflowName] = useState("");
 
   const config = useMemo(() => TOOL_CONFIG[tool.slug] || { hint: "", fields: [] }, [tool.slug]);
 
@@ -733,6 +752,21 @@ function ToolWorkspacePage({ tool }) {
     setSuccess("");
   };
 
+  const moveFile = (index, direction) => {
+    setFiles((current) => {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= current.length) {
+        return current;
+      }
+      const next = [...current];
+      const [item] = next.splice(index, 1);
+      next.splice(targetIndex, 0, item);
+      return next;
+    });
+    setError("");
+    setSuccess("");
+  };
+
   const onFormChange = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
@@ -744,6 +778,48 @@ function ToolWorkspacePage({ tool }) {
     }
     setStatus("idle");
     setError("Processing was cancelled.");
+  };
+
+  const handleSaveWorkflow = () => {
+    if (tool.slug !== "create-workflow") {
+      return;
+    }
+    if (!workflowName.trim()) {
+      setError("Enter a workflow preset name before saving.");
+      return;
+    }
+    const formError = validateToolForm("create-workflow", form);
+    if (formError) {
+      setError(formError);
+      return;
+    }
+    const next = [
+      {
+        id: `${Date.now()}`,
+        name: workflowName.trim(),
+        workflowJson: form.workflowJson,
+      },
+      ...savedWorkflows.filter((item) => item.name !== workflowName.trim()),
+    ].slice(0, 12);
+    setSavedWorkflows(next);
+    persistSavedWorkflows(next);
+    setSuccess(`Saved workflow preset "${workflowName.trim()}".`);
+    setError("");
+    setWorkflowName("");
+  };
+
+  const handleLoadWorkflow = (workflowJson) => {
+    setForm((current) => ({ ...current, workflowJson }));
+    setSuccess("Workflow preset loaded.");
+    setError("");
+  };
+
+  const handleDeleteWorkflow = (workflowId) => {
+    const next = savedWorkflows.filter((item) => item.id !== workflowId);
+    setSavedWorkflows(next);
+    persistSavedWorkflows(next);
+    setSuccess("Workflow preset removed.");
+    setError("");
   };
 
   const handleSubmit = async (event) => {
@@ -824,7 +900,7 @@ function ToolWorkspacePage({ tool }) {
       }
       const message =
         err instanceof TypeError
-          ? "Could not reach the backend. Make sure the Python API is running on port 8000."
+          ? "Could not reach the backend. Make sure the Python API is running and VITE_API_BASE_URL is correct."
           : err.message || "Something went wrong.";
       setError(message);
       setStatus("error");
@@ -898,6 +974,11 @@ function ToolWorkspacePage({ tool }) {
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">
                     {files.length} file{files.length > 1 ? "s" : ""} selected
                   </p>
+                  {tool.multiple ? (
+                    <p className="mt-1 text-xs text-slate-500">
+                      Top-to-bottom order is used when the output depends on file sequence.
+                    </p>
+                  ) : null}
                   <div className="mt-3 space-y-2">
                     {files.map((file, index) => (
                       <div
@@ -911,6 +992,24 @@ function ToolWorkspacePage({ tool }) {
                           <span className="text-xs text-slate-400">
                             {(file.size / (1024 * 1024)).toFixed(2)} MB
                           </span>
+                          <button
+                            aria-label={`Move ${file.name} up`}
+                            className="flex h-6 w-6 items-center justify-center rounded-full text-xs text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30"
+                            disabled={index === 0}
+                            onClick={() => moveFile(index, -1)}
+                            type="button"
+                          >
+                            ↑
+                          </button>
+                          <button
+                            aria-label={`Move ${file.name} down`}
+                            className="flex h-6 w-6 items-center justify-center rounded-full text-xs text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 disabled:opacity-30"
+                            disabled={index === files.length - 1}
+                            onClick={() => moveFile(index, 1)}
+                            type="button"
+                          >
+                            ↓
+                          </button>
                           <button
                             aria-label={`Remove ${file.name}`}
                             className="flex h-6 w-6 items-center justify-center rounded-full text-xs text-slate-400 transition hover:bg-slate-100 hover:text-red-600"
@@ -942,6 +1041,63 @@ function ToolWorkspacePage({ tool }) {
                       onChange={onFormChange}
                     />
                   ))}
+                </div>
+              )}
+
+              {tool.slug === "create-workflow" && (
+                <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <input
+                      className={`${inputClass} sm:flex-1`}
+                      name="workflowPresetName"
+                      placeholder="Preset name"
+                      type="text"
+                      value={workflowName}
+                      onChange={(event) => setWorkflowName(event.target.value)}
+                    />
+                    <button
+                      className="rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                      onClick={handleSaveWorkflow}
+                      type="button"
+                    >
+                      Save preset
+                    </button>
+                  </div>
+
+                  {savedWorkflows.length > 0 ? (
+                    <div className="mt-4 space-y-2">
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+                        Saved presets
+                      </p>
+                      {savedWorkflows.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                        >
+                          <div>
+                            <p className="text-sm font-semibold text-slate-800">{item.name}</p>
+                            <p className="mt-1 text-xs text-slate-500">Stored in this browser for quick reuse.</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+                              onClick={() => handleLoadWorkflow(item.workflowJson)}
+                              type="button"
+                            >
+                              Load
+                            </button>
+                            <button
+                              className="rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+                              onClick={() => handleDeleteWorkflow(item.id)}
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               )}
 
