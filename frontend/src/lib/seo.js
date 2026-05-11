@@ -11,7 +11,7 @@ function ensureMeta(selector, createAttributes) {
 }
 
 export function applyPageMetadata({ title, description }) {
-  const fullTitle = title ? `${title} | iLovePDF Workspace` : "iLovePDF Workspace";
+  const fullTitle = title ? `${title} | DocMate Workspace` : "DocMate Workspace";
   document.title = fullTitle;
 
   ensureMeta('meta[name="description"]', { name: "description" }).setAttribute("content", description);

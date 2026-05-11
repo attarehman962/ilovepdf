@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import PremiumSection from "./components/PremiumSection";
 import ToolsSection from "./components/ToolsSection";
 import TrustSection from "./components/TrustSection";
-import { toolBySlug } from "./lib/toolCatalog";
+import { HOME_FILTER_CATEGORY_MAP, toolBySlug, toolCatalog } from "./lib/toolCatalog";
 import AuthPage from "./pages/AuthPage";
 import AboutPage from "./pages/AboutPage";
 import FeaturesPage from "./pages/FeaturesPage";
@@ -19,14 +19,36 @@ import ToolWorkspacePage from "./pages/ToolWorkspacePage";
 import { applyPageMetadata } from "./lib/seo";
 import { clearToken, fetchMe, getStoredToken, logout } from "./services/auth";
 
-function HomePage({ user }) {
+function HomePage({ user, searchQuery }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const handleFilterChange = useCallback((filter) => setActiveFilter(filter), []);
+  const visibleToolCount = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+
+    return toolCatalog.filter((tool) => {
+      const category = HOME_FILTER_CATEGORY_MAP[activeFilter];
+      if (category && tool.category !== category) {
+        return false;
+      }
+
+      if (!normalizedQuery) {
+        return true;
+      }
+
+      const haystack = `${tool.title} ${tool.description} ${tool.category} ${tool.slug}`.toLowerCase();
+      return haystack.includes(normalizedQuery);
+    }).length;
+  }, [activeFilter, searchQuery]);
 
   return (
     <>
-      <HeroSection activeFilter={activeFilter} onFilterChange={handleFilterChange} user={user} />
-      <ToolsSection activeFilter={activeFilter} />
+      <HeroSection
+        activeFilter={activeFilter}
+        onFilterChange={handleFilterChange}
+        toolCount={visibleToolCount}
+        user={user}
+      />
+      <ToolsSection activeFilter={activeFilter} searchQuery={searchQuery} />
       <PremiumSection />
       <ImageEditorSection />
       <TrustSection />
@@ -36,7 +58,7 @@ function HomePage({ user }) {
 
 function NotFoundPage() {
   return (
-    <main className="min-h-[60vh] bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
+    <main className="min-h-[60vh] bg-[linear-gradient(180deg,#fff8eb_0%,#ffffff_100%)]">
       <section className="mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8">
         <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">404</p>
         <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
@@ -46,7 +68,7 @@ function NotFoundPage() {
           The page you requested is not available. Head back to the workspace and choose one of the PDF tools.
         </p>
         <a
-          className="mt-8 inline-flex rounded-xl bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+          className="mt-8 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
           href="/"
         >
           Go to homepage
@@ -59,6 +81,7 @@ function NotFoundPage() {
 function App() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
   const slug = pathname === "/" ? null : pathname.slice(1);
   const activeTool = slug ? toolBySlug[slug] : null;
@@ -204,7 +227,14 @@ function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <Navbar authLoading={authLoading} onLogout={handleLogout} user={user} />
+      <Navbar
+        authLoading={authLoading}
+        onLogout={handleLogout}
+        onSearchChange={setSearchQuery}
+        searchQuery={pathname === "/" ? searchQuery : ""}
+        showSearch={pathname === "/"}
+        user={user}
+      />
       <div className="page-shell" id="main-content">
         {isPricingPage ? (
           <PricingPage />
@@ -223,7 +253,7 @@ function App() {
         ) : activeTool ? (
           <ToolWorkspacePage tool={activeTool} />
         ) : (
-          <HomePage user={user} />
+          <HomePage searchQuery={searchQuery} user={user} />
         )}
       </div>
       <Footer />

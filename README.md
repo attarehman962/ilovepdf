@@ -1,22 +1,117 @@
-# iLovePDF Workspace
+# DocMate Workspace
 
-A full-stack PDF workspace built with React, FastAPI, and document-processing utilities.
+A full-stack PDF workspace built with React, Vite, FastAPI, and local document-processing utilities.
 
-This project includes:
-- a React frontend with Vite and Tailwind CSS
-- a FastAPI backend for authentication and PDF tools
-- local database support with SQLite by default
-- optional PostgreSQL setup through Docker Compose
+This project is designed as a polished academic and portfolio-ready PDF platform inspired by modern PDF productivity platforms. It combines a visually refined homepage, a shared tool workspace, user authentication, multilingual UI support, and a broad set of PDF-focused modules.
 
-## Features
+![DocMate logo](frontend/src/assets/docmate_logo.png)
 
-- Merge, split, compress, rotate, watermark, redact, and organize PDF files
-- Convert between PDF and Word, PowerPoint, Excel, JPG, HTML, and scanned images
-- OCR, translation, and AI summarizer tools
-- Login and signup flow with hashed passwords and session storage
-- Multilanguage interface support
-- Responsive UI with a light-only monochrome design
-- File validation, upload size checks, and server-side restrictions
+## Current Product Snapshot
+
+The project currently includes:
+- a React frontend with a redesigned editorial-style landing page
+- an official `DocMate` logo asset set with editable SVG source and transparent PNG runtime usage
+- a FastAPI backend for authentication and PDF tool processing
+- SQLite by default, with optional PostgreSQL support
+- multiple PDF utilities including organization, conversion, editing, security, OCR, translation, and workflow chaining
+- a responsive interface suitable for Final Year Project demos and portfolio presentation
+
+## Homepage and UI Design
+
+The homepage was recently upgraded to match a more premium and presentation-ready visual direction.
+
+### Homepage highlights
+
+- sticky navigation with the official `DocMate` transparent logo integrated directly into the header
+- single-line desktop navbar behavior with non-wrapping primary links and auth actions
+- adaptive navbar spacing and search sizing to preserve balance as content grows
+- integrated homepage tool search with `Ctrl/Cmd + K`
+- serif-led hero section with floating accent tiles
+- category filter pills that drive the real tool grid
+- redesigned tool cards with clearer category grouping
+- workflow, project polish, and trust sections that support the landing experience
+- updated footer aligned with the new visual system
+
+### Design system
+
+- background tone: warm cream interface
+- display font: `Instrument Serif`
+- body font: `Plus Jakarta Sans`
+- brand assets: `frontend/src/assets/docmate_logo_svg.svg` and `frontend/src/assets/docmate_logo.png`
+- navigation surfaces: white, charcoal, and soft gray framing with the logo's coral accent reserved for branding
+- category accent colors for organize, optimize, convert, edit, security, workflow, and intelligence flows
+- responsive layout across desktop and mobile
+
+### Navbar architecture
+
+- the navbar uses the transparent PNG from `frontend/src/assets`, while the SVG remains the editable source
+- desktop navigation uses `whitespace-nowrap` and tuned gap/font sizing to keep text on one line
+- homepage search remains available on large screens with a narrower adaptive slot
+- mobile and tablet views keep the existing drawer pattern so branding changes do not introduce overflow
+
+## Core Features
+
+### Organize
+
+- Merge PDF
+- Split PDF
+- Organize PDF
+- Scan to PDF
+
+### Optimize
+
+- Compress PDF
+- Repair PDF
+- OCR PDF
+
+### Convert
+
+- PDF to Word
+- PDF to PowerPoint
+- PDF to Excel
+- PDF to JPG
+- PDF to PDF/A
+- Word to PDF
+- PowerPoint to PDF
+- Excel to PDF
+- JPG to PDF
+- HTML to PDF
+
+### Edit
+
+- Edit PDF
+- Rotate PDF
+- Watermark
+- Crop PDF
+- Page numbers
+
+### Security
+
+- Unlock PDF
+- Protect PDF
+- Sign PDF
+- Redact PDF
+- Compare PDF
+
+### Intelligence
+
+- AI Summarizer
+- Translate PDF
+
+### Workflow
+
+- Create a workflow
+
+## Feature Notes
+
+Some tools are intentionally lightweight or academic-project friendly rather than enterprise-level replacements.
+
+- `Protect PDF` uses strong encryption in the backend.
+- `Scan to PDF` and `OCR PDF` generate searchable document output with OCR.
+- `Translate PDF` creates a translated report-style PDF rather than a full layout-preserving translation.
+- `AI Summarizer` uses extractive summarization from document text with OCR fallback.
+- `Create a workflow` allows chained processing and local preset reuse in the frontend.
+- Some Office and PDF conversions depend on local native utilities such as LibreOffice or Ghostscript.
 
 ## Tech Stack
 
@@ -43,6 +138,7 @@ This project includes:
 - `rapidocr-onnxruntime`
 - `deep-translator`
 - `langdetect`
+- `cryptography`
 
 ### Database
 
@@ -74,12 +170,23 @@ This project includes:
 │   ├── public
 │   ├── src
 │   │   ├── components
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── HeroSection.jsx
+│   │   │   ├── ToolsSection.jsx
+│   │   │   ├── PremiumSection.jsx
+│   │   │   ├── ImageEditorSection.jsx
+│   │   │   ├── TrustSection.jsx
+│   │   │   └── Footer.jsx
+│   │   ├── assets
+│   │   │   ├── docmate_logo.png
+│   │   │   └── docmate_logo_svg.svg
 │   │   ├── lib
 │   │   ├── pages
 │   │   ├── services
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
+│   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
 ├── docker-compose.yml
@@ -88,16 +195,19 @@ This project includes:
 
 ## Requirements
 
+### Required
+
 - Node.js 18+
 - Python 3.11+
 - npm
 
-Optional:
-- PostgreSQL
+### Optional but recommended
+
 - LibreOffice
 - Ghostscript
+- PostgreSQL
 
-Some tools depend on local system utilities. If a specific processor fails, check whether the required native dependency is installed.
+Some processors rely on native system tools. If a specific module fails, verify that the related dependency is installed and accessible from the terminal.
 
 ## Quick Start
 
@@ -109,7 +219,7 @@ npm install
 npm run dev
 ```
 
-The frontend runs on a Vite development server, usually:
+The frontend usually runs at:
 
 ```text
 http://localhost:5173
@@ -147,7 +257,7 @@ export DATABASE_URL=postgresql+psycopg://USER:PASSWORD@HOST:PORT/DB_NAME
 
 ## PostgreSQL with Docker
 
-The repository includes a PostgreSQL service in [docker-compose.yml](/home/atta/Documents/ILOVEPDF/docker-compose.yml:1).
+A PostgreSQL service is included in `docker-compose.yml`.
 
 Start it with:
 
@@ -155,7 +265,7 @@ Start it with:
 docker compose up -d
 ```
 
-Make sure these environment variables are set before running it:
+Set these environment variables before using it:
 
 ```bash
 export POSTGRES_DB=ilovepdf
@@ -166,17 +276,30 @@ export POSTGRES_PORT=5432
 
 ## Authentication
 
-- Passwords are hashed before storage
-- Session tokens are stored server-side as hashes
-- Sessions expire automatically
-- Multiple active sessions are limited
+- passwords are hashed before storage
+- session tokens are stored server-side as hashes
+- sessions expire automatically
+- multiple active sessions are limited
+- login and signup flows are available from the frontend
 
 ## Upload Rules
 
-- Maximum files per request: `5`
-- Maximum file size per file: `25 MB`
-- Unsupported or invalid file types are rejected
-- Some routes require a single file, while others allow multiple
+- maximum files per request: `5`
+- maximum file size per file: `25 MB`
+- unsupported or invalid file types are rejected
+- some routes require a single file, while others allow multiple
+
+## Main User Flow
+
+A typical user journey in the app is:
+
+1. Open the homepage.
+2. Use the navbar, search, or category pills to find a tool.
+3. Open the tool workspace page.
+4. Upload file(s).
+5. Configure tool-specific options.
+6. Run processing.
+7. Download the generated result.
 
 ## Available Tool Pages
 
@@ -190,29 +313,25 @@ Examples include:
 - `/ocr-pdf`
 - `/translate-pdf`
 - `/ai-summarizer`
+- `/create-workflow`
 
-## Notes
+## Build and Verification
 
-- `AI Summarizer` now uses direct text extraction with OCR fallback
-- `Translate PDF` depends on translator network availability at runtime
-- Some conversions rely on local tools like LibreOffice or Ghostscript
-- The frontend is light-only and responsive
-
-## Build
-
-Frontend production build:
+### Frontend production build
 
 ```bash
 cd frontend
 npm run build
 ```
 
-Backend compile check:
+### Backend compile check
 
 ```bash
 cd backend
 ./.venv/bin/python -m compileall app
 ```
+
+The homepage redesign, official logo integration, and navbar spacing updates were verified with a successful production build.
 
 ## API Entry Points
 
@@ -224,12 +343,20 @@ cd backend
 - `GET /api/tools`
 - `POST /api/tools/{tool_slug}/process`
 
-## Future Improvements
+## Known Constraints
 
-- Better per-tool preview UIs
-- Richer translation and summarization previews in the frontend
-- More precise conversion fidelity for office and PDF export flows
-- Automated tests for upload flows and document processors
+- some advanced tools are project-grade implementations rather than enterprise-complete replacements
+- translation output focuses on translated content more than original visual fidelity
+- some conversions depend on local native tools being installed correctly
+- there is no full background job queue or persisted processing history yet
+
+## Suggested Next Improvements
+
+- extend the new design language into pricing, auth, features, and tool workspace pages
+- add richer previews for visual tools such as organize, crop, sign, and compare
+- add server-side workflow persistence and file history
+- improve advanced conversion fidelity and document comparison depth
+- add automated frontend and backend tests for critical processing flows
 
 ## License
 

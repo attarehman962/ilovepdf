@@ -73,10 +73,10 @@ const messages = {
       imageTitle: "Image editing made simple",
       imageDesc:
         "Experience the speed, simplicity, and security you expect from your PDF workflow, tailored for image editing too. Compress, resize, and enhance visuals with an interface that stays familiar.",
-      imageButton: "Go to iLoveIMG",
+      imageButton: "Open DocMate Images",
       trustTitle: "The PDF software trusted by millions of users",
       trustDesc:
-        "iLovePDF is your number one web app for editing PDFs with ease. Enjoy all the tools you need to work efficiently with digital documents while keeping your data safe and secure.",
+        "DocMate is your all-in-one web app for editing PDFs with ease. Enjoy all the tools you need to work efficiently with digital documents while keeping your data safe and secure.",
     },
     auth: {
       loginTitle: "Login to your account",
@@ -85,7 +85,7 @@ const messages = {
       loginSwitchLabel: "Create an account",
       loginRightTitle: "Log in to your workspace",
       loginRightText:
-        "Enter your email and password to access your iLovePDF account. You are one step closer to boosting your document productivity.",
+        "Enter your email and password to access your DocMate account. You are one step closer to boosting your document productivity.",
       signupTitle: "Create your account",
       signupSubmit: "Sign up",
       signupSwitchText: "Already have an account?",
@@ -110,7 +110,7 @@ const messages = {
     footer: {
       groups: [
         { title: "Product", links: ["Home", "Features", "Pricing", "Tools", "FAQ"] },
-        { title: "Resources", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Resources", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "Solutions", links: ["Business", "Education"] },
         { title: "Legal", links: ["Security", "Privacy policy", "Terms & conditions", "Cookies"] },
         { title: "Company", links: ["About us", "Contact us", "Blog", "Press"] },
@@ -132,7 +132,7 @@ const messages = {
       yearlyShown: "Yearly billing shown",
       note: "Premium saves more with annual billing. Business pricing depends on seats and workflow needs.",
       apiEyebrow: "API for teams",
-      apiTitle: "Automate document processes with iLovePDF API",
+      apiTitle: "Automate document processes with DocMate API",
       apiText:
         "Build your own workflows for compressing, converting, protecting, and editing PDF files across your product stack.",
       apiButton: "Start with API access",
@@ -205,7 +205,7 @@ const messages = {
       imageTitle: "Edicion de imagen sencilla",
       imageDesc:
         "Disfruta la velocidad y simplicidad de tu flujo PDF, ahora tambien para imagenes. Comprime, cambia tamano y mejora visuales facilmente.",
-      imageButton: "Ir a iLoveIMG",
+      imageButton: "Abrir DocMate Images",
       trustTitle: "El software PDF de confianza para millones de usuarios",
       trustDesc:
         "Disfruta todas las herramientas que necesitas para trabajar con documentos digitales mientras mantienes tus datos seguros.",
@@ -242,7 +242,7 @@ const messages = {
     footer: {
       groups: [
         { title: "Producto", links: ["Inicio", "Funciones", "Precios", "Herramientas", "FAQ"] },
-        { title: "Recursos", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Recursos", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "Soluciones", links: ["Negocios", "Educacion"] },
         { title: "Legal", links: ["Seguridad", "Privacidad", "Terminos", "Cookies"] },
         { title: "Empresa", links: ["Sobre nosotros", "Contacto", "Blog", "Prensa"] },
@@ -259,7 +259,7 @@ const messages = {
       yearlyShown: "Se muestra la facturacion anual",
       note: "Premium ahorra mas con pago anual. El precio Business depende de los asientos y necesidades.",
       apiEyebrow: "API para equipos",
-      apiTitle: "Automatiza procesos documentales con iLovePDF API",
+      apiTitle: "Automatiza procesos documentales con DocMate API",
       apiText: "Construye tus propios flujos para comprimir, convertir, proteger y editar PDF.",
       apiButton: "Empezar con acceso API",
     },
@@ -326,7 +326,7 @@ const messages = {
       imageTitle: "Edition d'image simplifiee",
       imageDesc:
         "Profitez de la rapidite et de la simplicite attendues de votre flux PDF, adaptees aussi a l'edition d'images.",
-      imageButton: "Aller a iLoveIMG",
+      imageButton: "Ouvrir DocMate Images",
       trustTitle: "Le logiciel PDF de confiance pour des millions d'utilisateurs",
       trustDesc: "Profitez de tous les outils necessaires pour travailler efficacement tout en gardant vos donnees en securite.",
     },
@@ -337,7 +337,7 @@ const messages = {
       loginSwitchLabel: "Creer un compte",
       loginRightTitle: "Connectez-vous a votre espace",
       loginRightText:
-        "Entrez votre e-mail et votre mot de passe pour acceder a votre compte iLovePDF.",
+        "Entrez votre e-mail et votre mot de passe pour acceder a votre compte DocMate.",
       signupTitle: "Creez votre compte",
       signupSubmit: "S'inscrire",
       signupSwitchText: "Vous avez deja un compte ?",
@@ -362,7 +362,7 @@ const messages = {
     footer: {
       groups: [
         { title: "Produit", links: ["Accueil", "Fonctionnalites", "Tarifs", "Outils", "FAQ"] },
-        { title: "Ressources", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "Ressources", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "Solutions", links: ["Business", "Education"] },
         { title: "Legal", links: ["Securite", "Confidentialite", "Conditions", "Cookies"] },
         { title: "Entreprise", links: ["A propos", "Contact", "Blog", "Presse"] },
@@ -379,7 +379,7 @@ const messages = {
       yearlyShown: "Facturation annuelle affichee",
       note: "Premium economise plus avec l'annuel. Le plan Business depend du nombre de sieges.",
       apiEyebrow: "API pour les equipes",
-      apiTitle: "Automatisez les processus documentaires avec l'API iLovePDF",
+      apiTitle: "Automatisez les processus documentaires avec l'API DocMate",
       apiText: "Creez vos propres flux pour compresser, convertir, proteger et editer des PDF.",
       apiButton: "Commencer avec l'API",
     },
@@ -444,7 +444,7 @@ const messages = {
       premiumButton: "استكشف المزايا",
       imageTitle: "تحرير الصور اصبح اسهل",
       imageDesc: "استمتع بالسرعة والبساطة نفسها المتوقعة من سير عمل PDF ولكن مع الصور ايضا.",
-      imageButton: "اذهب الى iLoveIMG",
+      imageButton: "افتح DocMate Images",
       trustTitle: "برنامج PDF الموثوق به من ملايين المستخدمين",
       trustDesc: "استمتع بكل الادوات التي تحتاجها للعمل بكفاءة مع الحفاظ على امان بياناتك.",
     },
@@ -478,7 +478,7 @@ const messages = {
     footer: {
       groups: [
         { title: "المنتج", links: ["الرئيسية", "المميزات", "الاسعار", "الادوات", "الاسئلة"] },
-        { title: "الموارد", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "الموارد", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "الحلول", links: ["الاعمال", "التعليم"] },
         { title: "القانوني", links: ["الامان", "الخصوصية", "الشروط", "الكوكيز"] },
         { title: "الشركة", links: ["معلومات عنا", "اتصل بنا", "المدونة", "الصحافة"] },
@@ -495,7 +495,7 @@ const messages = {
       yearlyShown: "يتم عرض الفوترة السنوية",
       note: "يوفر بريميوم اكثر مع الدفع السنوي. تعتمد اسعار الاعمال على عدد المقاعد.",
       apiEyebrow: "واجهة API للفرق",
-      apiTitle: "قم بأتمتة عمليات المستندات باستخدام iLovePDF API",
+      apiTitle: "قم بأتمتة عمليات المستندات باستخدام DocMate API",
       apiText: "ابن سير العمل الخاص بك للضغط والتحويل والحماية والتحرير.",
       apiButton: "ابدأ باستخدام API",
     },
@@ -560,7 +560,7 @@ const messages = {
       premiumButton: "फीचर्स देखें",
       imageTitle: "इमेज एडिटिंग और आसान",
       imageDesc: "PDF वर्कफ्लो जैसी ही तेजी और सरलता अब इमेज एडिटिंग में भी पाएं।",
-      imageButton: "iLoveIMG पर जाएं",
+      imageButton: "DocMate Images खोलें",
       trustTitle: "लाखों यूज़र्स का भरोसेमंद PDF सॉफ्टवेयर",
       trustDesc: "डिजिटल दस्तावेज़ों के साथ काम करने के लिए सभी ज़रूरी टूल्स का आनंद लें।",
     },
@@ -594,7 +594,7 @@ const messages = {
     footer: {
       groups: [
         { title: "प्रोडक्ट", links: ["होम", "फीचर्स", "प्राइसिंग", "टूल्स", "FAQ"] },
-        { title: "रिसोर्सेज", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "रिसोर्सेज", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "सॉल्यूशंस", links: ["बिजनेस", "एजुकेशन"] },
         { title: "लीगल", links: ["सिक्योरिटी", "प्राइवेसी", "टर्म्स", "कुकीज़"] },
         { title: "कंपनी", links: ["हमारे बारे में", "संपर्क", "ब्लॉग", "प्रेस"] },
@@ -611,7 +611,7 @@ const messages = {
       yearlyShown: "वार्षिक बिलिंग दिखाई जा रही है",
       note: "वार्षिक भुगतान के साथ Premium में अधिक बचत होती है।",
       apiEyebrow: "टीम्स के लिए API",
-      apiTitle: "iLovePDF API के साथ डॉक्यूमेंट प्रोसेस ऑटोमेट करें",
+      apiTitle: "DocMate API के साथ डॉक्यूमेंट प्रोसेस ऑटोमेट करें",
       apiText: "कंप्रेस, कन्वर्ट, प्रोटेक्ट और एडिट के लिए अपना वर्कफ्लो बनाएं।",
       apiButton: "API एक्सेस शुरू करें",
     },
@@ -676,7 +676,7 @@ const messages = {
       premiumButton: "فیچرز دیکھیں",
       imageTitle: "امیج ایڈیٹنگ اب آسان",
       imageDesc: "PDF ورک فلو جیسی رفتار اور سادگی اب امیج ایڈیٹنگ میں بھی حاصل کریں۔",
-      imageButton: "iLoveIMG پر جائیں",
+      imageButton: "DocMate Images کھولیں",
       trustTitle: "لاکھوں صارفین کا قابل اعتماد PDF سافٹ ویئر",
       trustDesc: "تمام ضروری ٹولز کے ساتھ اپنے ڈیجیٹل دستاویزات پر محفوظ طریقے سے کام کریں۔",
     },
@@ -710,7 +710,7 @@ const messages = {
     footer: {
       groups: [
         { title: "پروڈکٹ", links: ["ہوم", "فیچرز", "قیمتیں", "ٹولز", "FAQ"] },
-        { title: "وسائل", links: ["iLovePDF Desktop", "iLovePDF Mobile", "iLoveSign", "iLoveAPI", "iLoveIMG"] },
+        { title: "وسائل", links: ["DocMate Desktop", "DocMate Mobile", "DocMate Sign", "DocMate API", "DocMate Images"] },
         { title: "حل", links: ["بزنس", "تعلیم"] },
         { title: "قانونی", links: ["سیکیورٹی", "پرائیویسی", "شرائط", "کوکیز"] },
         { title: "کمپنی", links: ["ہمارے بارے میں", "رابطہ", "بلاگ", "پریس"] },
@@ -727,7 +727,7 @@ const messages = {
       yearlyShown: "سالانہ بلنگ دکھائی جا رہی ہے",
       note: "سالانہ ادائیگی کے ساتھ پریمیم میں زیادہ بچت ہوتی ہے۔",
       apiEyebrow: "ٹیمز کے لیے API",
-      apiTitle: "iLovePDF API کے ساتھ دستاویزی عمل خودکار بنائیں",
+      apiTitle: "DocMate API کے ساتھ دستاویزی عمل خودکار بنائیں",
       apiText: "کمپریس، کنورٹ، پروٹیکٹ اور ایڈٹ کے لیے اپنا ورک فلو بنائیں۔",
       apiButton: "API رسائی شروع کریں",
     },
